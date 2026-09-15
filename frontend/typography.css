@@ -1,0 +1,74 @@
+/* Unified readability adjustment: every existing page font is four pixels larger. */
+.figma-app {
+  font-size: 17px;
+}
+
+.figma-brand b { font-size: 18px; }
+.figma-brand small { font-size: 13px; }
+.figma-alert { font-size: 15px; }
+.viewbar b,
+.viewbar span { font-size: 15px; }
+.side-caption { font-size: 14px; }
+.figma-sidebar > button > i { font-size: 22px; }
+.figma-sidebar > button span b { font-size: 20px; }
+.figma-sidebar > button span small { font-size: 14px; }
+.side-status b { font-size: 14px; }
+.side-status span,
+.side-status small { font-size: 13px; }
+.page-heading h1 { font-size: 20px; }
+.page-heading p { font-size: 15px; }
+.divider > b { font-size: 18px; }
+.divider > span { font-size: 14px; }
+.stat span { font-size: 14px; }
+.figma-card > header,
+.data-box > header { font-size: 16px; }
+.figma-card > header small { font-size: 14px; }
+.donut:after { font-size: 24px; }
+.legend span { font-size: 15px; }
+.legend b { font-size: 16px; }
+.mini-chart > div { font-size: 13px; }
+.chart-legend { font-size: 14px; }
+.search-mode button { font-size: 14px; }
+.supplier-list > input { font-size: 15px; }
+.supplier-scroll > button > b { font-size: 15px; }
+.supplier-scroll small { font-size: 13px; }
+.supplier-head h2 { font-size: 21px; }
+.supplier-head p { font-size: 14px; }
+.supplier-head > div:last-child b { font-size: 33px; }
+.badge { font-size: 13px; }
+.profile-fields small { font-size: 13px; }
+.profile-fields span { font-size: 14px; }
+.figma-tabs button { font-size: 15px; }
+.timeline small { font-size: 13px; }
+.timeline span { font-size: 14px; }
+.data-box th,
+.data-box td { font-size: 14px; }
+.bars-chart span,
+.bars-chart small { font-size: 13px; }
+.compare-picks button { font-size: 14px; }
+.query-panel label { font-size: 13px; }
+.rating-score > b { font-size: 50px; }
+.rating-score strong { font-size: 26px; }
+.rating-score span { font-size: 13px; }
+.dimension-list span,
+.dimension-list strong { font-size: 14px; }
+.pipeline b { font-size: 24px; }
+.pipeline span { font-size: 14px; }
+.pipeline small { font-size: 13px; }
+.formula span { font-size: 24px; }
+
+/* Text that inherits the page base size. */
+.top-actions,
+.top-actions small,
+.top-actions select,
+.alert-pill,
+.figma-sidebar,
+.figma-main,
+.figma-card,
+.data-box,
+.query-panel,
+.supplier-detail,
+.supplier-list,
+.figma-tabs,
+.timeline,
+.formula { font-size: 17px; }

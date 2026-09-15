@@ -1,0 +1,10 @@
+.delivery-analysis .figma-card > section { min-height: 236px; }
+.delivery-analysis .mini-chart svg { height: 190px; }
+.delivery-analysis .bars-chart { height: 236px; }
+.bars-chart.amber i b { background: #f59e0b; }
+.delivery-legend { display: flex; justify-content: center; gap: 20px; margin-top: 8px; color: #64748b; font-size: 10px; }
+.delivery-legend span { display: flex; align-items: center; gap: 6px; }
+.delivery-legend i { width: 12px; height: 2px; display: inline-block; }
+.delivery-legend .confirm { background: #3b82f6; }
+.delivery-legend .inspect { background: #06b6d4; }
+.delivery-legend .inbound { background: #22c55e; }

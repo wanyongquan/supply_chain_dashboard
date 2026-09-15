@@ -1,0 +1,35 @@
+{
+  "suppliers": [
+    {"supplier_id":"S001","supplier_name":"华原滤清器","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"核心","rating":"A","risk_level":"低","risk_sources":[],"lifecycle_risk":"","primary_material_id":"M-23016"},
+    {"supplier_id":"S002","supplier_name":"天圆精密","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"独家","rating":"B","risk_level":"高","risk_sources":["保供风险","存续/资质"],"lifecycle_risk":"资质临期","primary_material_id":"M-11028"},
+    {"supplier_id":"S003","supplier_name":"东辰组件","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"关键","rating":"C","risk_level":"高","risk_sources":["质量风险","交付风险"],"lifecycle_risk":"整改逾期","primary_material_id":"M-31802"},
+    {"supplier_id":"S004","supplier_name":"远航铸造","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"关键","rating":"B","risk_level":"中","risk_sources":["交付风险"],"lifecycle_risk":"","primary_material_id":"M-11028"}
+  ],
+  "materials": [
+    {"material_id":"M-11028","material_name":"高压油管","material_category":"发动机件","unit":"件","main_group_code":"发动机供油"},
+    {"material_id":"M-23016","material_name":"机油滤清器","material_category":"发动机件","unit":"件","main_group_code":"发动机过滤"},
+    {"material_id":"M-31802","material_name":"线束总成","material_category":"电气件","unit":"套","main_group_code":"电气连接"}
+  ],
+  "orders": [
+    {"order_id":"PO260801","supplier_id":"S002","material_id":"M-11028","status":"部分交付","supply_ratio":"100%","delivery_ratio":"71%","deviation":"-29 个百分点","impact":"2 条产线","risk_level":"高"},
+    {"order_id":"PO260802","supplier_id":"S004","material_id":"M-11028","status":"已完成","supply_ratio":"100%","delivery_ratio":"98%","deviation":"-2 个百分点","impact":"-","risk_level":"低"},
+    {"order_id":"PO260803","supplier_id":"S003","material_id":"M-31802","status":"逾期未完","supply_ratio":"90%","delivery_ratio":"73%","deviation":"-17 个百分点","impact":"1 条产线","risk_level":"高"},
+    {"order_id":"PO260804","supplier_id":"S001","material_id":"M-23016","status":"待确认","supply_ratio":"100%","delivery_ratio":"-","deviation":"-","impact":"待观察","risk_level":"中"}
+  ],
+  "inventory": [
+    {"material_id":"M-11028","supplier_id":"S002","days_of_supply":2.4,"stock_status":"低于安全库存","risk_basis":"独家 + 交付偏差","risk_level":"高","stock_amount":180000},
+    {"material_id":"M-23016","supplier_id":"S001","days_of_supply":4.1,"stock_status":"低于安全库存","risk_basis":"关键 + 安全库存不足","risk_level":"中","stock_amount":230000},
+    {"material_id":"M-31802","supplier_id":"S003","days_of_supply":8.6,"stock_status":"安全库存内","risk_basis":"质量问题观察","risk_level":"低","stock_amount":150000}
+  ],
+  "quality": [
+    {"batch_id":"QC260821-17","material_id":"M-31802","supplier_id":"S003","issue_type":"尺寸偏差","conclusion":"退货","impact":"2 类物料"},
+    {"batch_id":"QC260819-05","material_id":"M-11028","supplier_id":"S004","issue_type":"外观缺陷","conclusion":"让步接收","impact":"无停线影响"},
+    {"batch_id":"QC260824-11","material_id":"M-23016","supplier_id":"S001","issue_type":"-","conclusion":"合格","impact":"-"}
+  ],
+  "prices": [
+    {"material_id":"M-11028","supplier_id":"S002","unit_price":42.8,"purchase_qty":12400,"benchmark_gap":"+8.2%","quality_rate":"98.1%","time_compliance":"88%"},
+    {"material_id":"M-11028","supplier_id":"S004","unit_price":40.2,"purchase_qty":3600,"benchmark_gap":"+1.5%","quality_rate":"97.8%","time_compliance":"90%"},
+    {"material_id":"M-23016","supplier_id":"S001","unit_price":18.6,"purchase_qty":18200,"benchmark_gap":"-0.4%","quality_rate":"99.2%","time_compliance":"96%"},
+    {"material_id":"M-31802","supplier_id":"S003","unit_price":86.5,"purchase_qty":4200,"benchmark_gap":"+4.1%","quality_rate":"96.8%","time_compliance":"82%"}
+  ]
+}
