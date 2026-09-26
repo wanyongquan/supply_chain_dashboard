@@ -38,6 +38,8 @@ class Handler(BaseHTTPRequestHandler):
         try:
             if parts[:2] == ["api", "health"]:
                 return self._send({"status": "ok", "data_source": "mock"})
+            if parts == ["api", "profile", "overview"]:
+                return self._send(SERVICE.profile_overview(filters.get("status"), filters.get("rating")))
             if parts[:2] == ["api", "suppliers"]:
                 if len(parts) == 2:
                     return self._send({"items": SERVICE.list_suppliers(filters.get("name"))})
@@ -45,6 +47,20 @@ class Handler(BaseHTTPRequestHandler):
                     result = SERVICE.supplier(name=filters.get("name"))
                     detail = SERVICE.supplier_detail(result["supplier_id"]) if result else None
                     return self._send(detail or {"error": "supplier not found"}, 200 if detail else 404)
+                if len(parts) == 4 and parts[3] == "profile":
+                    result = SERVICE.supplier_profile(parts[2])
+                    return self._send(result or {"error": "supplier not found"}, 200 if result else 404)
+                if len(parts) == 4 and parts[3] == "expected-orders":
+                    supplier = SERVICE.supplier(supplier_id=parts[2])
+                    if not supplier:
+                        return self._send({"error": "supplier not found"}, 404)
+                    try:
+                        items = SERVICE.supplier_model.get_expected_orders(
+                            parts[2], filters.get("start_date"), filters.get("end_date")
+                        )
+                    except ValueError as exc:
+                        return self._send({"error": str(exc)}, 400)
+                    return self._send({"items": items})
                 if len(parts) == 3:
                     result = SERVICE.supplier_detail(parts[2])
                     return self._send(result or {"error": "supplier not found"}, 200 if result else 404)

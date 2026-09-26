@@ -5,6 +5,7 @@
 ## 目录
 
 - `backend/data_provider.py`：数据接入抽象。当前使用 `data/mock_data.json`，以后可替换为数据库或平台 API。
+- `backend/model.py`：供应商领域查询模型，集中提供供应商列表、名称/编号查询、画像总览统计、单体画像及预计订单区间查询。
 - `backend/services.py`：四个看板的指标计算、主题聚合和供应商/物料关联逻辑。
 - `backend/server.py`：Python 标准库 HTTP 服务和 JSON API。
 - `frontend/`：Vue 3 前端，包含四个看板、管理角色视角和供应商详情抽屉。
@@ -25,13 +26,20 @@ python backend/server.py
 
 - `GET /api/suppliers`：供应商列表；支持 `name` 名称关键词筛选
 - `GET /api/suppliers/{supplier_id}`：供应商详情及其订单、库存、质量、价格关联数据
-- `GET /api/suppliers/by-name?name=...`：按供应商名称查询详情
+- `GET /api/suppliers/{supplier_id}/profile`：单体画像；包括原始档案、关联物料/订单/质检/价格，以及由明细聚合的履约、质量和采购统计
+- `GET /api/profile/overview`：供应商总数、状态与风险 KPI、省份/评级分布和履约/质检趋势；支持 `status` 与 `rating` 筛选，各项均由筛选后的同一供应商集合和关联业务明细计算
+- `GET /api/suppliers/by-name?name=...`：按供应商名称查询详情；非唯一的模糊名称不会任意返回一个结果
+- `GET /api/suppliers/{supplier_id}/expected-orders?start_date=YYYY-MM-DD&end_date=YYYY-MM-DD`：查询供应商预计交期在指定日期区间内的订单，区间端点均包含
 - `GET /api/materials`：物料主数据列表
 - `GET /api/orders`：采购订单列表；支持 `supplier_id`、`material_id`、`status` 筛选
 - `GET /api/inventory`：库存与保供风险；支持 `supplier_id`、`material_id` 筛选
 - `GET /api/quality`：来料质量记录；支持 `supplier_id`、`material_id` 筛选
 - `GET /api/prices`：采购价格记录；支持 `supplier_id`、`material_id` 筛选
 - `GET /api/dashboard/{board}`：页面看板聚合数据，`board` 可取 `profile`、`rating`、`delivery`、`price`
+
+预计订单区间查询使用订单字段 `expected_delivery_date`。当前 mock 数据中的预计交期仅用于演示，接入真实数据时应由订单数据源提供该字段。
+
+页面统计遵循单一原始数据源原则：供应商总数、省份分布、等级分布均由 `suppliers` 列表统计；画像订单、质量和价格指标由对应原始明细聚合。分组数量之和应等于当前筛选集合总数。示例数据缺少历史或业务依据的指标不以固定数字伪装，而以可追溯明细计算或显示“暂无”。
 
 前端的 `frontend/api.js` 是接口适配层，只负责请求 API 和转换展示字段，不直接读取 JSON 或内嵌业务 mock 数据。
 

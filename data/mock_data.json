@@ -1,9 +1,9 @@
 {
   "suppliers": [
-    {"supplier_id":"S001","supplier_name":"华原滤清器","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"核心","rating":"A","risk_level":"低","risk_sources":[],"lifecycle_risk":"","primary_material_id":"M-23016"},
-    {"supplier_id":"S002","supplier_name":"天圆精密","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"独家","rating":"B","risk_level":"高","risk_sources":["保供风险","存续/资质"],"lifecycle_risk":"资质临期","primary_material_id":"M-11028"},
-    {"supplier_id":"S003","supplier_name":"东辰组件","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"关键","rating":"C","risk_level":"高","risk_sources":["质量风险","交付风险"],"lifecycle_risk":"整改逾期","primary_material_id":"M-31802"},
-    {"supplier_id":"S004","supplier_name":"远航铸造","supplier_category":"生产配套供应商","lifecycle_status":"在供","supply_role":"关键","rating":"B","risk_level":"中","risk_sources":["交付风险"],"lifecycle_risk":"","primary_material_id":"M-11028"}
+    {"supplier_id":"S001","supplier_name":"华原滤清器","supplier_category":"生产配套供应商","province":"安徽","lifecycle_status":"在供","supply_role":"核心","rating":"A","evaluation_score":92.4,"rating_dimensions":[43,28,14,5.4,2],"risk_level":"低","risk_sources":[],"lifecycle_risk":"","primary_material_id":"M-23016","lifecycle_events":[{"date":"2024-03-12","event":"完成供应商准入","status":"normal"},{"date":"2026-01-15","event":"年度评级 A 级","status":"normal"}],"profile":{"unified_social_credit_code":"91340100MA2XXXXXXXX1","registered_address":"安徽省合肥市经开区","established_at":"2008-11-23","registered_capital":"5000万元人民币","main_business":"滤清器及发动机零部件制造","certifications":"ISO 9001、IATF 16949","contact_name":"张建国","contact_phone":"0551-8765XXXX","admission_date":"2024-03-12","supplier_type":"核心供应商","payment_terms":"月结60天","contract_valid_until":"2027-03-11"},"credit":{"deposit_amount":112000,"monthly_change":7000,"annual_deduction":8000}},
+    {"supplier_id":"S002","supplier_name":"天圆精密","supplier_category":"生产配套供应商","province":"江苏","lifecycle_status":"在供","supply_role":"独家","rating":"B","evaluation_score":78.2,"rating_dimensions":[36,23,13,4.4,1.8],"risk_level":"高","risk_sources":["保供风险","存续/资质"],"lifecycle_risk":"资质临期","primary_material_id":"M-11028","lifecycle_events":[{"date":"2023-06-01","event":"完成供应商准入","status":"normal"},{"date":"2026-08-01","event":"资质即将到期，待更新","status":"warn"}],"profile":{"unified_social_credit_code":"91320100MA3XXXXXXXX2","registered_address":"江苏省南京市江宁区","established_at":"2012-06-18","registered_capital":"3200万元人民币","main_business":"精密管件与发动机供油部件","certifications":"ISO 9001","contact_name":"李文浩","contact_phone":"025-8321XXXX","admission_date":"2023-06-01","supplier_type":"独家供应商","payment_terms":"月结45天","contract_valid_until":"2026-12-31"},"credit":{"deposit_amount":86000,"monthly_change":-3000,"annual_deduction":12000}},
+    {"supplier_id":"S003","supplier_name":"东辰组件","supplier_category":"生产配套供应商","province":"浙江","lifecycle_status":"在供","supply_role":"关键","rating":"C","evaluation_score":68.5,"rating_dimensions":[31,20,11,5,1.5],"risk_level":"高","risk_sources":["质量风险","交付风险"],"lifecycle_risk":"整改逾期","primary_material_id":"M-31802","lifecycle_events":[{"date":"2022-09-20","event":"完成供应商准入","status":"normal"},{"date":"2026-08-21","event":"批次质量问题，整改处理中","status":"warn"}],"profile":{"unified_social_credit_code":"91330200MA4XXXXXXXX3","registered_address":"浙江省宁波市鄞州区","established_at":"2015-02-09","registered_capital":"1800万元人民币","main_business":"汽车线束及电气连接组件","certifications":"IATF 16949","contact_name":"周敏","contact_phone":"0574-6612XXXX","admission_date":"2022-09-20","supplier_type":"关键供应商","payment_terms":"月结30天","contract_valid_until":"2026-11-30"},"credit":{"deposit_amount":45000,"monthly_change":-5000,"annual_deduction":18000}},
+    {"supplier_id":"S004","supplier_name":"远航铸造","supplier_category":"生产配套供应商","province":"山东","lifecycle_status":"在供","supply_role":"关键","rating":"B","evaluation_score":78.2,"rating_dimensions":[36,23,13,4.4,1.8],"risk_level":"中","risk_sources":["交付风险"],"lifecycle_risk":"","primary_material_id":"M-11028","lifecycle_events":[{"date":"2021-05-10","event":"完成供应商准入","status":"normal"},{"date":"2026-01-15","event":"年度评级 B 级","status":"normal"}],"profile":{"unified_social_credit_code":"91370100MA5XXXXXXXX4","registered_address":"山东省济南市章丘区","established_at":"2006-08-30","registered_capital":"6800万元人民币","main_business":"铸造件及发动机结构件制造","certifications":"ISO 9001、IATF 16949","contact_name":"王立新","contact_phone":"0531-8890XXXX","admission_date":"2021-05-10","supplier_type":"关键供应商","payment_terms":"月结60天","contract_valid_until":"2027-05-09"},"credit":{"deposit_amount":98000,"monthly_change":2500,"annual_deduction":4000}}
   ],
   "materials": [
     {"material_id":"M-11028","material_name":"高压油管","material_category":"发动机件","unit":"件","main_group_code":"发动机供油"},
@@ -11,10 +11,10 @@
     {"material_id":"M-31802","material_name":"线束总成","material_category":"电气件","unit":"套","main_group_code":"电气连接"}
   ],
   "orders": [
-    {"order_id":"PO260801","supplier_id":"S002","material_id":"M-11028","status":"部分交付","supply_ratio":"100%","delivery_ratio":"71%","deviation":"-29 个百分点","impact":"2 条产线","risk_level":"高"},
-    {"order_id":"PO260802","supplier_id":"S004","material_id":"M-11028","status":"已完成","supply_ratio":"100%","delivery_ratio":"98%","deviation":"-2 个百分点","impact":"-","risk_level":"低"},
-    {"order_id":"PO260803","supplier_id":"S003","material_id":"M-31802","status":"逾期未完","supply_ratio":"90%","delivery_ratio":"73%","deviation":"-17 个百分点","impact":"1 条产线","risk_level":"高"},
-    {"order_id":"PO260804","supplier_id":"S001","material_id":"M-23016","status":"待确认","supply_ratio":"100%","delivery_ratio":"-","deviation":"-","impact":"待观察","risk_level":"中"}
+    {"order_id":"PO260801","supplier_id":"S002","material_id":"M-11028","expected_delivery_date":"2026-09-18","actual_delivery_date":"2026-09-20","confirmation_days":2.5,"receipt_cycle_days":13,"status":"部分交付","supply_ratio":"100%","delivery_ratio":"71%","deviation":"-29 个百分点","impact":"2 条产线","risk_level":"高"},
+    {"order_id":"PO260802","supplier_id":"S004","material_id":"M-11028","expected_delivery_date":"2026-09-20","actual_delivery_date":"2026-09-19","confirmation_days":1.2,"receipt_cycle_days":8,"status":"已完成","supply_ratio":"100%","delivery_ratio":"98%","deviation":"-2 个百分点","impact":"-","risk_level":"低"},
+    {"order_id":"PO260803","supplier_id":"S003","material_id":"M-31802","expected_delivery_date":"2026-09-24","confirmation_days":3.1,"status":"逾期未完","supply_ratio":"90%","delivery_ratio":"73%","deviation":"-17 个百分点","impact":"1 条产线","risk_level":"高"},
+    {"order_id":"PO260804","supplier_id":"S001","material_id":"M-23016","expected_delivery_date":"2026-09-28","confirmation_days":1.0,"status":"待确认","supply_ratio":"100%","delivery_ratio":"-","deviation":"-","impact":"待观察","risk_level":"中"}
   ],
   "inventory": [
     {"material_id":"M-11028","supplier_id":"S002","days_of_supply":2.4,"stock_status":"低于安全库存","risk_basis":"独家 + 交付偏差","risk_level":"高","stock_amount":180000},
@@ -22,14 +22,14 @@
     {"material_id":"M-31802","supplier_id":"S003","days_of_supply":8.6,"stock_status":"安全库存内","risk_basis":"质量问题观察","risk_level":"低","stock_amount":150000}
   ],
   "quality": [
-    {"batch_id":"QC260821-17","material_id":"M-31802","supplier_id":"S003","issue_type":"尺寸偏差","conclusion":"退货","impact":"2 类物料"},
-    {"batch_id":"QC260819-05","material_id":"M-11028","supplier_id":"S004","issue_type":"外观缺陷","conclusion":"让步接收","impact":"无停线影响"},
-    {"batch_id":"QC260824-11","material_id":"M-23016","supplier_id":"S001","issue_type":"-","conclusion":"合格","impact":"-"}
+    {"batch_id":"QC260821-17","material_id":"M-31802","supplier_id":"S003","inspection_date":"2026-09-21","inspection_cycle_days":3.2,"inspected_quantity":1000,"defect_quantity":12,"eight_d_status":"整改中","issue_type":"尺寸偏差","conclusion":"退货","impact":"2 类物料"},
+    {"batch_id":"QC260819-05","material_id":"M-11028","supplier_id":"S004","inspection_date":"2026-09-19","inspection_cycle_days":2.4,"inspected_quantity":600,"defect_quantity":4,"eight_d_status":"已关闭","issue_type":"外观缺陷","conclusion":"让步接收","impact":"无停线影响"},
+    {"batch_id":"QC260824-11","material_id":"M-23016","supplier_id":"S001","inspection_date":"2026-09-24","inspection_cycle_days":1.8,"inspected_quantity":1200,"defect_quantity":0,"eight_d_status":"已关闭","issue_type":"-","conclusion":"合格","impact":"-"}
   ],
   "prices": [
-    {"material_id":"M-11028","supplier_id":"S002","unit_price":42.8,"purchase_qty":12400,"benchmark_gap":"+8.2%","quality_rate":"98.1%","time_compliance":"88%"},
-    {"material_id":"M-11028","supplier_id":"S004","unit_price":40.2,"purchase_qty":3600,"benchmark_gap":"+1.5%","quality_rate":"97.8%","time_compliance":"90%"},
-    {"material_id":"M-23016","supplier_id":"S001","unit_price":18.6,"purchase_qty":18200,"benchmark_gap":"-0.4%","quality_rate":"99.2%","time_compliance":"96%"},
-    {"material_id":"M-31802","supplier_id":"S003","unit_price":86.5,"purchase_qty":4200,"benchmark_gap":"+4.1%","quality_rate":"96.8%","time_compliance":"82%"}
+    {"material_id":"M-11028","supplier_id":"S002","record_date":"2026-09-18","unit_price":42.8,"purchase_qty":12400,"benchmark_gap":"+8.2%","quality_rate":"98.1%","time_compliance":"88%"},
+    {"material_id":"M-11028","supplier_id":"S004","record_date":"2026-09-20","unit_price":40.2,"purchase_qty":3600,"benchmark_gap":"+1.5%","quality_rate":"97.8%","time_compliance":"90%"},
+    {"material_id":"M-23016","supplier_id":"S001","record_date":"2026-09-22","unit_price":18.6,"purchase_qty":18200,"benchmark_gap":"-0.4%","quality_rate":"99.2%","time_compliance":"96%"},
+    {"material_id":"M-31802","supplier_id":"S003","record_date":"2026-09-23","unit_price":86.5,"purchase_qty":4200,"benchmark_gap":"+4.1%","quality_rate":"96.8%","time_compliance":"82%"}
   ]
 }
