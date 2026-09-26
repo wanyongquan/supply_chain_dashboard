@@ -9,7 +9,12 @@ from model import SupplierModel
 
 class DashboardService:
     def __init__(self, provider):
-        self.data = provider.load()
+        self.provider = provider
+        self.refresh()
+
+    def refresh(self):
+        """重新加载 Demo 原始数据，避免服务进程长期持有旧 JSON。"""
+        self.data = self.provider.load()
         self.supplier_model = SupplierModel(self.data)
         self.suppliers = self.supplier_model.suppliers
         self.materials = {item["material_id"]: item for item in self.data["materials"]}
@@ -119,7 +124,7 @@ class DashboardService:
         return {"supplier_id": item["supplier_id"], "supplier_name": item["supplier_name"], "basis": item["lifecycle_risk"] + " + " + item["supply_role"], "material": self._material(item["primary_material_id"])["material_name"], "level": item["risk_level"]}
 
     def rating(self):
-        scores = [item.get("evaluation_score", 0) for item in self.suppliers]
+        scores = [item["evaluation_score"] for item in self.suppliers if isinstance(item.get("evaluation_score"), (int, float))]
         dimensions = ["质量", "交付", "技术", "成本", "廉洁合作"]
         full_scores = [45, 30, 16, 7, 2]
         return {
@@ -130,7 +135,7 @@ class DashboardService:
                 {"label": "平均得分", "value": round(sum(scores) / len(scores), 1) if scores else None, "note": "评价得分算术平均"},
             ],
             "dimensions": [
-                {"name": name, "score": round(sum(x.get("rating_dimensions", [0] * 5)[index] for x in self.suppliers) / len(self.suppliers), 1) if self.suppliers else 0, "full": full_scores[index]}
+                {"name": name, "score": round(sum(values) / len(values), 1) if (values := [x["rating_dimensions"][index] for x in self.suppliers if len(x.get("rating_dimensions", [])) > index]) else None, "full": full_scores[index]}
                 for index, name in enumerate(dimensions)
             ],
             "items": [{"supplier_id": x["supplier_id"], "supplier_name": x["supplier_name"], "rating": x["rating"], "score": x.get("evaluation_score"), "score_status": "来源于供应商评价记录"} for x in self.suppliers],
@@ -145,7 +150,7 @@ class DashboardService:
         ratios = [float(x["delivery_ratio"].rstrip("%")) for x in rows if x.get("delivery_ratio") not in (None, "-")]
         return {
             "kpis": [
-                {"label": "订单确认平均时长（天）", "value": round(sum(x.get("confirmation_days", 0) for x in rows) / len(rows), 1) if rows else None, "note": "订单记录平均值"},
+                {"label": "订单确认平均时长（天）", "value": round(sum(values) / len(values), 1) if (values := [x["confirmation_days"] for x in rows if isinstance(x.get("confirmation_days"), (int, float))]) else None, "note": "仅统计已有确认时长的订单"},
                 {"label": "准时交付率", "value": round(100 * len(on_time) / len(delivered), 1) if delivered else None, "note": "仅统计含实际交付日期的订单"},
                 {"label": "平均交付比例", "value": round(sum(ratios) / len(ratios), 1) if ratios else None, "note": "订单交付比例算术平均"},
                 {"label": "高风险订单数", "value": sum(x["risk_level"] == "高" for x in rows), "note": "按订单风险等级统计"},

@@ -78,7 +78,7 @@ class SupplierModel:
         quality = [item for item in self.data["quality"] if item["supplier_id"] in supplier_ids]
         inspected = sum(item.get("inspected_quantity", 0) for item in quality)
         defects = sum(item.get("defect_quantity", 0) for item in quality)
-        rating_scores = [item.get("evaluation_score", 0) for item in suppliers]
+        rating_scores = [item["evaluation_score"] for item in suppliers if isinstance(item.get("evaluation_score"), (int, float))]
         by_month: Dict[str, Dict[str, List[float]]] = defaultdict(lambda: {"on_time": [], "quality": []})
         for order in orders:
             expected = order.get("expected_delivery_date")
@@ -150,7 +150,7 @@ class SupplierModel:
                 "purchase_amount": round(sum(item["unit_price"] * item["purchase_qty"] for item in prices), 2),
                 "order_completion_rate": round(100 * completed_orders / len(orders), 1) if orders else None,
                 "on_time_delivery_rate": round(100 * sum(item["actual_delivery_date"] <= item["expected_delivery_date"] for item in delivered) / len(delivered), 1) if delivered else None,
-                "average_confirmation_days": round(sum(item.get("confirmation_days", 0) for item in orders) / len(orders), 1) if orders else None,
+                "average_confirmation_days": round(sum(values) / len(values), 1) if (values := [item["confirmation_days"] for item in orders if isinstance(item.get("confirmation_days"), (int, float))]) else None,
                 "overdue_order_count": sum(item["status"] == "逾期未完" for item in orders),
                 "arrival_cycle_days": round(sum(item["receipt_cycle_days"] for item in orders if item.get("receipt_cycle_days") is not None) / sum(item.get("receipt_cycle_days") is not None for item in orders), 1) if any(item.get("receipt_cycle_days") is not None for item in orders) else None,
                 "inspected_quantity": inspected,

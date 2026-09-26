@@ -36,6 +36,8 @@ class Handler(BaseHTTPRequestHandler):
         parts = [part for part in parsed.path.split("/") if part]
         filters = {key: values[0] for key, values in query.items() if values and values[0]}
         try:
+            if parsed.path.startswith("/api/"):
+                SERVICE.refresh()
             if parts[:2] == ["api", "health"]:
                 return self._send({"status": "ok", "data_source": "mock"})
             if parts == ["api", "profile", "overview"]:

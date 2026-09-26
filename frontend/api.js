@@ -70,7 +70,7 @@ const SupplierApi = (() => {
       name: item.supplier_name,
       category: item.supplier_category,
       level: item.rating,
-      score: item.evaluation_score || 0,
+      score: item.evaluation_score ?? null,
       status: item.lifecycle_status,
       region: item.province || '未填写',
       lastEval: events.length ? events[events.length - 1].date : '-',
@@ -162,7 +162,7 @@ const SupplierApi = (() => {
     const onTimeOrders = receivedOrders.filter(item => item.actual_delivery_date <= item.expected_delivery_date);
     const receiptCycles = receivedOrders.map(item => item.receipt_cycle_days).filter(Number.isFinite);
     const ratingCounts = Object.fromEntries(ratingLevels.map(level => [level, suppliers.filter(item => (item.level || '未评级') === level).length]));
-    const average = values => values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0;
+    const average = values => { const numbers=values.filter(Number.isFinite); return numbers.length ? numbers.reduce((sum, value) => sum + value, 0) / numbers.length : 0; };
     const byPeriod = new Map();
     const periodStats = period => {
       if (!byPeriod.has(period)) byPeriod.set(period, {confirm: [], overdue: [], inspection: [], inbound: []});

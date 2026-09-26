@@ -47,8 +47,7 @@ createApp({
     const active=ref('profile'), profileSub=ref('overview'), role=ref('公司管理层'), alertOpen=ref(true);
     const apiError=ref('');
     const supplierId=ref('S001'), detailTab=ref(0), priceTab=ref(0), deliveryTab=ref(0), searchMode=ref('name'), search=ref(''), ratingSearch=ref(''), selectedMaterial=ref(0);
-    const supplierSearchResults=ref([]), selectedSupplierDetail=ref(null), selectedSupplierProfile=ref(null), expectedOrders=ref([]);
-    const orderStartDate=ref('2026-01-01'), orderEndDate=ref('2026-12-31');
+    const supplierSearchResults=ref([]), selectedSupplierDetail=ref(null), selectedSupplierProfile=ref(null);
     const profileYear=ref('2026'), profileStatus=ref('全部'), profileLevel=ref('全部');
     const compareIds=ref(['S001','S002']);
     const current=computed(()=>NAV.find(n=>n.id===active.value));
@@ -87,7 +86,7 @@ createApp({
     });
     const overviewSuppliers=computed(()=>profileOverview.value.suppliers||[]);
     const ratingList=computed(()=>D.value.suppliers.filter(s=>!ratingSearch.value||`${s.name}${s.id}`.includes(ratingSearch.value)).sort((a,b)=>b.score-a.score));
-    const dims=computed(()=>{const v=D.value.dimensionScores[supplierId.value]||[0,0,0,0,0];return [['质量',v[0],45],['交付',v[1],30],['技术',v[2],16],['成本',v[3],7],['廉洁合作',v[4],2]]});
+    const dims=computed(()=>{const v=D.value.dimensionScores[supplierId.value]||[];return [['质量',v[0]??0,45],['交付',v[1]??0,30],['技术',v[2]??0,16],['成本',v[3]??0,7],['廉洁合作',v[4]??0,2]]});
     const selectedPriceSummary=computed(()=>{
       const material=D.value.materials[selectedMaterial.value];
       return material?D.value.priceSummaries[material[0]]:null;
@@ -107,19 +106,13 @@ createApp({
         `采购数量 ${item.purchase_qty.toLocaleString()}，估算价差 ¥${impact.toFixed(2)}`
       ];
     })||[]);
-    const loadExpectedOrders=async(id=supplierId.value)=>{
-      const result=await window.SupplierApi.getExpectedOrders(id,orderStartDate.value,orderEndDate.value);
-      if(id!==supplierId.value)return;
-      expectedOrders.value=result.items;
-    };
     const loadSupplierProfile=async id=>{
-      selectedSupplierDetail.value=null;selectedSupplierProfile.value=null;expectedOrders.value=[];
+      selectedSupplierDetail.value=null;selectedSupplierProfile.value=null;
       try {
         const profile=await window.SupplierApi.getSupplierProfile(id);
         if(id!==supplierId.value)return;
         selectedSupplierProfile.value=profile;
         selectedSupplierDetail.value=window.SupplierApi.supplierView(profile.supplier);
-        await loadExpectedOrders(id);
       } catch (error) { apiError.value=error.message; }
     };
     const selectSupplier=id=>{supplierId.value=id;detailTab.value=0};
@@ -134,10 +127,6 @@ createApp({
         if(request===supplierSearchRequest)supplierSearchResults.value=results;
       } catch (error) { apiError.value=error.message; }
     });
-    const queryExpectedOrders=async()=>{
-      try { await loadExpectedOrders(); }
-      catch (error) { apiError.value=error.message; }
-    };
     let profileOverviewRequest=0;
     watch([profileStatus,profileLevel],async()=>{
       const request=++profileOverviewRequest;
@@ -161,7 +150,7 @@ createApp({
         window.renderSupplierMap?.(provinceOverview.value);
       }
     }, {deep:true});
-    return {D,NAV,active,profileSub,role,alertOpen,apiError,supplierId,detailTab,priceTab,deliveryTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,orderStartDate,orderEndDate,expectedOrders,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,selectSupplier,queryExpectedOrders,toggleCompare};
+    return {D,NAV,active,profileSub,role,alertOpen,apiError,supplierId,detailTab,priceTab,deliveryTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,selectSupplier,toggleCompare};
   },
   template:`
   <div class="figma-app">
@@ -187,12 +176,10 @@ createApp({
           <template v-else-if="active==='profile' && profileSub==='basic'">
           <Divider label="供应商查询与单体画像" :hot="role==='中层管理层'" :role="role"/>
           <div class="supplier-layout"><aside class="supplier-list"><div class="search-mode"><button :class="{active:searchMode==='name'}" @click="searchMode='name'">按名称</button><button :class="{active:searchMode==='id'}" @click="searchMode='id'">按编号</button></div><input v-model="search" :placeholder="searchMode==='name'?'输入名称关键词...':'如 S001'"><div class="supplier-scroll"><button v-for="s in supplierList" :class="{active:supplierId===s.id}" @click="selectSupplier(s.id)"><div><small>{{s.id}}</small><Badge :text="s.level+'级'" :tone="s.level"/></div><b>{{s.name}}</b><div><small>{{s.category}}</small><Badge :text="s.status" :tone="s.status"/></div></button></div></aside>
-            <div class="supplier-detail"><div class="supplier-head"><div><h2>{{supplier.name}} <Badge :text="supplier.level+'级'" :tone="supplier.level"/> <Badge :text="supplier.status" :tone="supplier.status"/></h2><p>{{supplier.id}} · {{supplier.category}} · {{supplier.region}} · 最近评审 {{supplier.lastEval}}</p></div><div><small>综合得分</small><b>{{supplier.score}}</b></div></div>
+            <div class="supplier-detail"><div class="supplier-head"><div><h2>{{supplier.name}} <Badge :text="supplier.level+'级'" :tone="supplier.level"/> <Badge :text="supplier.status" :tone="supplier.status"/></h2><p>{{supplier.id}} · {{supplier.category}} · {{supplier.region}} · 最近评审 {{supplier.lastEval}}</p></div><div><small>综合得分</small><b>{{supplier.score??'暂无'}}</b></div></div>
               <Card title="基础档案"><div class="profile-fields"><div v-for="x in selectedSupplierProfile?.profile_fields||[]" :key="x.label"><small>{{x.label}}</small><span>{{x.value}}</span></div></div></Card>
               <div><div class="stat-grid four"><Stat label="关联采购金额" :value="'¥'+(selectedSupplierProfile?.statistics.purchase_amount||0).toLocaleString()" sub="按已记录价格 × 数量"/><Stat label="订单完成率" :value="selectedSupplierProfile?.statistics.order_completion_rate==null?'暂无':selectedSupplierProfile.statistics.order_completion_rate+'%'" tone="green"/><Stat label="质检合格率" :value="selectedSupplierProfile?.statistics.quality_pass_rate==null?'暂无':selectedSupplierProfile.statistics.quality_pass_rate+'%'" tone="green"/><Stat label="风险等级" :value="supplier.risk+'风险'" :tone="supplier.risk==='低'?'green':'amber'"/></div><Card title="生命周期事件记录"><div class="timeline"><div v-for="e in selectedSupplierProfile?.supplier.lifecycle_events||[]" :class="e.status"><i></i><small>{{e.date}}</small><span>{{e.event}}</span></div></div></Card></div>
             </div>
-            <div class="query-panel compact"><label>预计交期起始<input v-model="orderStartDate" type="date"></label><label>预计交期截止<input v-model="orderEndDate" type="date"></label><button @click="queryExpectedOrders">查询订单</button></div>
-            <DataBox title="预期订单明细" :headers="['订单号','物料编号','预计交期','订单状态','供货比例','交付比例']" :rows="expectedOrders.map(x=>[x.order_id,x.material_id,x.expected_delivery_date,x.status,x.supply_ratio,x.delivery_ratio])"/>
           </div>
           </template>
           <template v-else-if="active==='profile' && profileSub==='capacity'"><Divider label="供应能力"/><div class="supplier-layout"><aside class="supplier-list"><div class="search-mode"><button class="active">当前供应商</button></div><div class="supplier-scroll"><button v-for="s in supplierList" :class="{active:supplierId===s.id}" @click="selectSupplier(s.id)"><small>{{s.id}}</small><b>{{s.name}}</b><small>{{s.category}}</small></button></div></aside><div class="supplier-detail"><div class="supplier-head"><div><h2>{{supplier.name}}</h2><p>{{supplier.id}} · {{supplier.region}} · {{supplier.category}}</p></div><div><small>关联物料数</small><b>{{selectedSupplierProfile?.materials.length||0}}</b></div></div><Card title="供应物料"><DataBox title="物料供货明细" :headers="['物料编号','零部件名称','物料分类','供货状态','最近订单日期']" :rows="(selectedSupplierProfile?.materials||[]).map(x=>[x.material_id,x.material_name,x.material_category,x.supplier_status,x.last_order_date])"/></Card></div></div></template>
