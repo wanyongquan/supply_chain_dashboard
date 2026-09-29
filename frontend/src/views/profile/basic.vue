@@ -1,0 +1,15 @@
+<script setup>
+import {useDashboard} from '../../composables/useDashboard';
+const {D,NAV,active,profileSub,deliverySub,role,alertOpen,apiError,supplierId,detailTab,priceTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,deliveryStart,deliveryEnd,deliveryStatus,deliveryOrderQuery,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,filteredDeliveryOrders,deliveryStatusOptions,selectedFlowOrder,workflowNodes,deliverySummaryCards,abnormalOrders,fulfillmentRows,shortageRows,shortageSupplierChart,shortageMaterialChart,supplyExecution,supplierNameById,materialNameById,selectSupplier,toggleCompare}=useDashboard();
+</script>
+<template>
+<section class="page-stack">
+          <Divider label="供应商查询与单体画像" :hot="role==='中层管理层'" :role="role"/>
+          <div class="supplier-layout"><aside class="supplier-list"><div class="search-mode"><button :class="{active:searchMode==='name'}" @click="searchMode='name'">按名称</button><button :class="{active:searchMode==='id'}" @click="searchMode='id'">按编号</button></div><input v-model="search" :placeholder="searchMode==='name'?'输入名称关键词...':'如 S001'"><div class="supplier-scroll"><button v-for="s in supplierList" :class="{active:supplierId===s.id}" @click="selectSupplier(s.id)"><div><small>{{s.id}}</small><Badge :text="s.level+'级'" :tone="s.level"/></div><b>{{s.name}}</b><div><small>{{s.category}}</small><Badge :text="s.status" :tone="s.status"/></div></button></div></aside>
+            <div class="supplier-detail"><div class="supplier-head"><div><h2>{{supplier.name}} <Badge :text="supplier.level+'级'" :tone="supplier.level"/> <Badge :text="supplier.status" :tone="supplier.status"/></h2><p>{{supplier.id}} · {{supplier.category}} · {{supplier.region}} · 最近评审 {{supplier.lastEval}}</p></div><div><small>综合得分</small><b>{{supplier.score??'暂无'}}</b></div></div>
+              <Card title="基础档案"><div class="profile-fields"><div v-for="x in selectedSupplierProfile?.profile_fields||[]" :key="x.label"><small>{{x.label}}</small><span>{{x.value}}</span></div></div></Card>
+              <div><div class="stat-grid four"><Stat label="关联采购金额" :value="'¥'+(selectedSupplierProfile?.statistics.purchase_amount||0).toLocaleString()" sub="按已记录价格 × 数量"/><Stat label="订单完成率" :value="selectedSupplierProfile?.statistics.order_completion_rate==null?'暂无':selectedSupplierProfile.statistics.order_completion_rate+'%'" tone="green"/><Stat label="质检合格率" :value="selectedSupplierProfile?.statistics.quality_pass_rate==null?'暂无':selectedSupplierProfile.statistics.quality_pass_rate+'%'" tone="green"/><Stat label="风险等级" :value="supplier.risk+'风险'" :tone="supplier.risk==='低'?'green':'amber'"/></div><Card title="生命周期事件记录"><div class="timeline"><div v-for="e in selectedSupplierProfile?.supplier.lifecycle_events||[]" :class="e.status"><i></i><small>{{e.date}}</small><span>{{e.event}}</span></div></div></Card></div>
+            </div>
+          </div>
+          </section>
+</template>

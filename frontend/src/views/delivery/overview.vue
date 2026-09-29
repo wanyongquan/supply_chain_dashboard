@@ -1,0 +1,8 @@
+<script setup>
+import {useDashboard} from '../../composables/useDashboard';
+import ProcurementCharts from '../../components/ProcurementCharts.vue';
+const {D,NAV,active,profileSub,deliverySub,role,alertOpen,apiError,supplierId,detailTab,priceTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,deliveryStart,deliveryEnd,deliveryStatus,deliveryOrderQuery,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,filteredDeliveryOrders,deliveryStatusOptions,selectedFlowOrder,workflowNodes,deliverySummaryCards,procurementMaterialAnalysis,abnormalOrders,fulfillmentRows,shortageRows,shortageSupplierChart,shortageMaterialChart,supplyExecution,supplierNameById,materialNameById,selectSupplier,toggleCompare}=useDashboard();
+</script>
+<template>
+<section class="page-stack"><div class="query-panel"><label>开始日期<input type="date" v-model="deliveryStart"></label><label>结束日期<input type="date" v-model="deliveryEnd"></label><button>查询</button></div><div class="delivery-stage-grid"><article v-for="x in deliverySummaryCards" :class="['delivery-stage',x.tone]"><h3>{{x.title}}</h3><div><span>{{x.a}}</span><span>{{x.b}}</span></div><div><b>{{x.av}}</b><b>{{x.bv}}</b></div></article></div><div class="procurement-analysis"><article><h2>采购需求分析</h2><ProcurementCharts type="request" :rows="procurementMaterialAnalysis" /></article><article><h2>请购进度分析</h2><ProcurementCharts type="progress" :rows="procurementMaterialAnalysis" /></article></div></section>
+</template>

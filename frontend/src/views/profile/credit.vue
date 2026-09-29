@@ -1,0 +1,7 @@
+<script setup>
+import {useDashboard} from '../../composables/useDashboard';
+const {D,NAV,active,profileSub,deliverySub,role,alertOpen,apiError,supplierId,detailTab,priceTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,deliveryStart,deliveryEnd,deliveryStatus,deliveryOrderQuery,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,filteredDeliveryOrders,deliveryStatusOptions,selectedFlowOrder,workflowNodes,deliverySummaryCards,abnormalOrders,fulfillmentRows,shortageRows,shortageSupplierChart,shortageMaterialChart,supplyExecution,supplierNameById,materialNameById,selectSupplier,toggleCompare}=useDashboard();
+</script>
+<template>
+<section class="page-stack"><Divider label="信用风险"/><div class="stat-grid three"><Stat label="质量保证金余额" :value="'¥'+(selectedSupplierProfile?.credit.deposit_amount||0).toLocaleString()"/><Stat label="本月变动" :value="(selectedSupplierProfile?.credit.monthly_change>0?'+':'')+'¥'+(selectedSupplierProfile?.credit.monthly_change||0).toLocaleString()" :tone="selectedSupplierProfile?.credit.monthly_change>=0?'green':'amber'"/><Stat label="累计扣款（本年）" :value="'¥'+(selectedSupplierProfile?.credit.annual_deduction||0).toLocaleString()" tone="amber"/></div></section>
+</template>

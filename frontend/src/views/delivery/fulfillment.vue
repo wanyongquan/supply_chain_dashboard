@@ -1,0 +1,7 @@
+<script setup>
+import {useDashboard} from '../../composables/useDashboard';
+const {D,NAV,active,profileSub,deliverySub,role,alertOpen,apiError,supplierId,detailTab,priceTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,deliveryStart,deliveryEnd,deliveryStatus,deliveryOrderQuery,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,filteredDeliveryOrders,deliveryStatusOptions,selectedFlowOrder,workflowNodes,deliverySummaryCards,abnormalOrders,fulfillmentRows,shortageRows,shortageSupplierChart,shortageMaterialChart,supplyExecution,supplierNameById,materialNameById,selectSupplier,toggleCompare}=useDashboard();
+</script>
+<template>
+<section class="page-stack"><div class="query-panel"><label>开始日期<input type="date" v-model="deliveryStart"></label><label>结束日期<input type="date" v-model="deliveryEnd"></label><label>订单状态<select v-model="deliveryStatus"><option>全部</option><option v-for="x in deliveryStatusOptions">{{x}}</option></select></label><button>查询</button></div><DataBox title="采购订单履约明细" :headers="['订单号','订单日期','供应商','物料编号','物料名称','订单量','预计交期','实际到货','状态','交付比例','逾期天数','逾期数量','确认时长（天）']" :rows="fulfillmentRows"/></section>
+</template>

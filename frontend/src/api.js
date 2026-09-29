@@ -20,6 +20,7 @@ const SupplierApi = (() => {
     priceComparison: [],
     costFactors: [],
     volumePricing: []
+    ,deliveryFlow: {requisitions: [], confirmations: [], deliveryNotes: [], receipts: [], warehouseEntries: [], agreements: [], rawOrders: [], quality: [], inventory: []}
   });
 
   async function get(path) {
@@ -247,17 +248,30 @@ const SupplierApi = (() => {
         `按 ${item.purchase_qty.toLocaleString()} 件估算，价差金额 ¥${item.impact_amount.toFixed(2)}`
       ]),
       volumePricing: []
+      ,deliveryFlow: {
+        requisitions: data.requisitions.items,
+        confirmations: data.confirmations.items,
+        deliveryNotes: data.deliveryNotes.items,
+        receipts: data.receipts.items,
+        warehouseEntries: data.warehouseEntries.items,
+        agreements: data.agreements.items,
+        rawOrders: data.orders.items,
+        quality: data.quality.items,
+        inventory: data.inventory.items
+      }
     };
   }
 
   async function loadModel() {
-    const [suppliers, materials, orders, inventory, quality, prices, profileOverview] = await Promise.all([
+    const [suppliers, materials, orders, inventory, quality, prices, profileOverview, requisitions, confirmations, deliveryNotes, receipts, warehouseEntries, agreements] = await Promise.all([
       listSuppliers(), get('/api/materials'), get('/api/orders'),
-      get('/api/inventory'), get('/api/quality'), get('/api/prices'), getProfileOverview()
+      get('/api/inventory'), get('/api/quality'), get('/api/prices'), getProfileOverview(),
+      get('/api/purchase-requisitions'), get('/api/order-confirmations'), get('/api/delivery-notes'),
+      get('/api/receipts'), get('/api/warehouse-entries'), get('/api/supply-agreements')
     ]);
-    return makeModel({suppliers, materials, orders, inventory, quality, prices, profileOverview});
+    return makeModel({suppliers, materials, orders, inventory, quality, prices, profileOverview, requisitions, confirmations, deliveryNotes, receipts, warehouseEntries, agreements});
   }
 
   return {emptyModel, loadModel, get, listSuppliers, getSupplierByName, getSupplierById, getSupplierProfile, getProfileOverview, getExpectedOrders, searchSuppliers, supplierView};
 })();
-window.SupplierApi = SupplierApi;
+export default SupplierApi;

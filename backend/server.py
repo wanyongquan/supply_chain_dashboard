@@ -11,7 +11,7 @@ from data_provider import build_provider
 from services import DashboardService
 
 ROOT = Path(__file__).resolve().parent.parent
-FRONTEND = ROOT / "frontend"
+FRONTEND = ROOT / "frontend" / "dist"
 SERVICE = DashboardService(build_provider())
 
 
@@ -77,6 +77,9 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send({"items": SERVICE.list_quality(**{key: filters[key] for key in ("supplier_id", "material_id") if key in filters})})
             if parts[:2] == ["api", "prices"] and len(parts) == 2:
                 return self._send({"items": SERVICE.list_prices(**{key: filters[key] for key in ("supplier_id", "material_id") if key in filters})})
+            if len(parts) == 2 and parts[0] == "api" and parts[1] in {"purchase-requisitions", "order-confirmations", "delivery-notes", "receipts", "warehouse-entries", "supply-agreements"}:
+                data_key = parts[1].replace("-", "_")
+                return self._send({"items": SERVICE.list_records(data_key)})
             if parts[:2] == ["api", "dashboard"] and len(parts) >= 3:
                 board = parts[2]
                 if board not in {"profile", "rating", "delivery", "price"}:
@@ -84,7 +87,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send(SERVICE.dashboard(board, query.get("material_id", [None])[0]))
             if parsed.path.startswith("/api/"):
                 return self._send({"error": "not found"}, 404)
-            path = FRONTEND / ("index.html" if parsed.path in ("", "/") else parsed.path.lstrip("/"))
+            if not (FRONTEND / "index.html").is_file():
+                return self._send("Frontend build missing. Run npm install and npm run build in frontend/.", 503, "text/plain; charset=utf-8")
+            requested = FRONTEND / parsed.path.lstrip("/") if parsed.path not in ("", "/") else FRONTEND / "index.html"
+            path = requested if requested.is_file() else FRONTEND / "index.html"
             if not path.is_file() or FRONTEND not in path.resolve().parents:
                 return self._send("Not found", 404, "text/plain; charset=utf-8")
             content_type = mimetypes.guess_type(path.name)[0] or "application/octet-stream"

@@ -69,6 +69,9 @@ class DashboardService:
             and (not material_id or item["material_id"] == material_id)
         ]
 
+    def list_records(self, name):
+        return list(self.data.get(name, []))
+
     def overview(self):
         profile = self.supplier_model.get_profile_overview()
         risk_rows = [item for item in self.suppliers if item["risk_level"] in ("高", "中")]

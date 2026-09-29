@@ -8,17 +8,33 @@
 - `backend/model.py`：供应商领域查询模型，集中提供供应商列表、名称/编号查询、画像总览统计、单体画像及预计订单区间查询。
 - `backend/services.py`：四个看板的指标计算、主题聚合和供应商/物料关联逻辑。
 - `backend/server.py`：Python 标准库 HTTP 服务和 JSON API。
-- `frontend/`：Vue 3 前端，包含四个看板、管理角色视角和供应商详情抽屉。
+- `frontend/src/App.vue`：共享应用布局。
+- `frontend/src/views/`：各功能单文件组件，画像和采购交付的子页面分别独立。
+- `frontend/src/router/index.js`：Vue Router 路由（Hash 模式，刷新页面不需要后端重写规则）。
+- `frontend/src/components/`：共享指标、表格、图表和地图组件。
+- `frontend/src/composables/useDashboard.js`：共享查询状态和原有业务计算。
+- `frontend/src/api.js`：原有 API 封装，接口地址保持不变。
 
 ## 运行
 
-在本目录执行：
+首次运行或修改前端后，先构建前端（Node.js 18+）：
+
+```sh
+cd frontend
+npm install
+npm run build
+cd ..
+```
+
+随后在项目目录执行，原有启动脚本仍然可用：
 
 ```powershell
 python backend/server.py
 ```
 
 浏览器打开 `http://127.0.0.1:5181/`。
+
+前端开发时，保持 Python 服务运行，在 `frontend` 目录执行 `npm run dev`，访问 `http://127.0.0.1:5173/`。开发服务器将 `/api` 请求转发给 Python 的 5181 端口；生产构建由 Python 直接提供静态文件，不依赖 Vue CDN。
 
 ## 数据接口
 

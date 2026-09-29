@@ -136,6 +136,13 @@ class SupplierModel:
         for row in (*orders, *detail["inventory"], *quality, *prices):
             material_id = row["material_id"]
             materials[material_id] = dict(self.materials.get(material_id, {"material_id": material_id, "material_name": material_id}))
+        for item in self.data.get("supplier_materials", []):
+            if item.get("supplier_id") == supplier["supplier_id"]:
+                material_id = item["material_id"]
+                materials.setdefault(
+                    material_id,
+                    dict(self.materials.get(material_id, {"material_id": material_id, "material_name": material_id})),
+                )
         for material in materials.values():
             material["supplier_status"] = supplier["lifecycle_status"]
             material["last_order_date"] = max(
