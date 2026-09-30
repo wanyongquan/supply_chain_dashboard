@@ -1,6 +1,6 @@
 # 供应链数据中台（Python + Vue）
 
-这是按 Figma 原型改造的供应链四看板可运行 Demo：供应商画像、供应商评级、采购交付、比价分析。后端负责数据读取、指标计算和跨主题聚合，前端只负责筛选、展示和交互。
+这是按 Figma 原型改造的供应链四看板可运行 Demo：供应商画像、供应商评级、采购全流程协同、比价分析。后端负责数据读取、指标计算和跨主题聚合，前端只负责筛选、展示和交互。
 
 ## 目录
 
@@ -9,7 +9,7 @@
 - `backend/services.py`：四个看板的指标计算、主题聚合和供应商/物料关联逻辑。
 - `backend/server.py`：Python 标准库 HTTP 服务和 JSON API。
 - `frontend/src/App.vue`：共享应用布局。
-- `frontend/src/views/`：各功能单文件组件，画像和采购交付的子页面分别独立。
+- `frontend/src/views/`：各功能单文件组件，画像和采购全流程协同的子页面分别独立。
 - `frontend/src/router/index.js`：Vue Router 路由（Hash 模式，刷新页面不需要后端重写规则）。
 - `frontend/src/components/`：共享指标、表格、图表和地图组件。
 - `frontend/src/composables/useDashboard.js`：共享查询状态和原有业务计算。

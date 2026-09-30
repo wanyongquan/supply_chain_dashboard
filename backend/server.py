@@ -77,7 +77,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self._send({"items": SERVICE.list_quality(**{key: filters[key] for key in ("supplier_id", "material_id") if key in filters})})
             if parts[:2] == ["api", "prices"] and len(parts) == 2:
                 return self._send({"items": SERVICE.list_prices(**{key: filters[key] for key in ("supplier_id", "material_id") if key in filters})})
-            if len(parts) == 2 and parts[0] == "api" and parts[1] in {"purchase-requisitions", "order-confirmations", "delivery-notes", "receipts", "warehouse-entries", "supply-agreements"}:
+            if len(parts) == 2 and parts[0] == "api" and parts[1] in {"purchase-requisitions", "order-confirmations", "delivery-notes", "receipts", "warehouse-entries", "supply-agreements", "purchase-history"}:
                 data_key = parts[1].replace("-", "_")
                 return self._send({"items": SERVICE.list_records(data_key)})
             if parts[:2] == ["api", "dashboard"] and len(parts) >= 3:

@@ -230,7 +230,7 @@ class DashboardService:
         return {**overview, "lifecycle_structure": lifecycle["lifecycle_structure"], "qualification_risks": lifecycle["qualification_risks"], "quality_kpis": quality["kpis"], "quality_traceability": quality["traceability"]}
 
     def delivery_overview(self):
-        """采购交付聚合视图：串联订单履约、在途状态与库存保供风险。"""
+        """采购全流程协同聚合视图：串联订单履约、在途状态与库存保供风险。"""
         delivery = self.delivery()
         supply = self.supply()
         return {**delivery, "inventory_kpis": supply["kpis"], "inventory_health": supply["health"], "key_materials": supply["key_materials"]}

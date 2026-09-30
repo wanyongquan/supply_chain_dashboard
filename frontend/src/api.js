@@ -17,6 +17,7 @@ const SupplierApi = (() => {
     shortages: [],
     materials: [],
     priceHistory: [],
+    purchaseHistory: [],
     priceComparison: [],
     costFactors: [],
     volumePricing: []
@@ -142,6 +143,12 @@ const SupplierApi = (() => {
         impact_amount: (item.unit_price - benchmarkPrice) * item.purchase_qty
       };
     });
+    const purchaseHistory = (data.purchaseHistory?.items || []).map(item => ({
+      ...item,
+      supplier_name: supplierName(item.supplier_id),
+      material_name: materialName(item.material_id),
+      specification: item.specification || materialById[item.material_id]?.specification || '-'
+    }));
     const priceSummaryByMaterial = priceRecords.reduce((groups, item) => {
       (groups[item.material_id] ||= []).push(item);
       return groups;
@@ -239,6 +246,7 @@ const SupplierApi = (() => {
       shortages,
       materials: data.materials.items.map(item => [item.material_id, item.material_name, item.material_category]),
       priceHistory: priceRecords,
+      purchaseHistory,
       priceComparison,
       costFactors: priceRecords.map(item => [
         `${item.supplier_name} · ${item.material_name}`,
@@ -263,13 +271,13 @@ const SupplierApi = (() => {
   }
 
   async function loadModel() {
-    const [suppliers, materials, orders, inventory, quality, prices, profileOverview, requisitions, confirmations, deliveryNotes, receipts, warehouseEntries, agreements] = await Promise.all([
+    const [suppliers, materials, orders, inventory, quality, prices, profileOverview, requisitions, confirmations, deliveryNotes, receipts, warehouseEntries, agreements, purchaseHistory] = await Promise.all([
       listSuppliers(), get('/api/materials'), get('/api/orders'),
       get('/api/inventory'), get('/api/quality'), get('/api/prices'), getProfileOverview(),
       get('/api/purchase-requisitions'), get('/api/order-confirmations'), get('/api/delivery-notes'),
-      get('/api/receipts'), get('/api/warehouse-entries'), get('/api/supply-agreements')
+      get('/api/receipts'), get('/api/warehouse-entries'), get('/api/supply-agreements'), get('/api/purchase-history')
     ]);
-    return makeModel({suppliers, materials, orders, inventory, quality, prices, profileOverview, requisitions, confirmations, deliveryNotes, receipts, warehouseEntries, agreements});
+    return makeModel({suppliers, materials, orders, inventory, quality, prices, profileOverview, requisitions, confirmations, deliveryNotes, receipts, warehouseEntries, agreements, purchaseHistory});
   }
 
   return {emptyModel, loadModel, get, listSuppliers, getSupplierByName, getSupplierById, getSupplierProfile, getProfileOverview, getExpectedOrders, searchSuppliers, supplierView};
