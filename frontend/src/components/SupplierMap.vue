@@ -10,11 +10,13 @@ let controller;
 const provinceName = name => ['北京','天津','上海','重庆'].includes(name) ? `${name}市` : ({内蒙古:'内蒙古自治区',广西:'广西壮族自治区',宁夏:'宁夏回族自治区',新疆:'新疆维吾尔自治区',西藏:'西藏自治区',香港:'香港特别行政区',澳门:'澳门特别行政区'})[name] || `${name}省`;
 function update() {
   if (!chart) return;
-  const data = Object.entries(props.data).flatMap(([name, value]) => [{name,value}, {name:provinceName(name),value}]);
+  const data = Object.entries(props.data)
+    .filter(([,value]) => Number(value) > 0)
+    .flatMap(([name,value]) => [{name,value}, {name:provinceName(name),value}]);
   chart.setOption({
     tooltip: {trigger:'item',formatter:p=>`${p.name}<br/>供应商数量：${Number.isFinite(Number(p.value)) ? Number(p.value) : 0} 家`},
-    visualMap: {min:0,max:Math.max(20,...data.map(x=>x.value)),left:12,bottom:12,text:['多','少'],calculable:false,textStyle:{color:'#94a3b8',fontSize:10},inRange:{color:['#102a43','#1d4ed8','#06b6d4']}},
-    series:[{type:'map',map:'china',roam:false,layoutCenter:['50%','48%'],layoutSize:'108%',label:{show:true,color:'#b7c9e2',fontSize:9},itemStyle:{areaColor:'#12233d',borderColor:'#3b82f680',borderWidth:1},emphasis:{label:{color:'#fff'},itemStyle:{areaColor:'#22d3ee'}},data}]
+    visualMap: {min:1,max:Math.max(1,...data.map(x=>x.value)),left:12,bottom:12,text:['多','少'],calculable:false,textStyle:{color:'#334155',fontSize:10},inRange:{color:['#60a5fa','#0057b8']}},
+    series:[{type:'map',map:'china',roam:false,layoutCenter:['50%','48%'],layoutSize:'116%',label:{show:true,color:'#334155',fontSize:9},itemStyle:{areaColor:'#dbeafe',borderColor:'#fff',borderWidth:1},emphasis:{label:{color:'#fff'},itemStyle:{areaColor:'#003f8c'}},data}]
   });
 }
 onMounted(async () => {
@@ -41,3 +43,9 @@ onBeforeUnmount(()=>{stopped=true;controller?.abort();observer?.disconnect();cha
 </script>
 
 <template><div ref="container" class="supplier-map-chart"><div v-if="error" class="map-loading">{{error}}</div></div></template>
+
+<style scoped>
+.supplier-map-chart {
+  background: #fff;
+}
+</style>

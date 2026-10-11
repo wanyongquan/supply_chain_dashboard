@@ -72,3 +72,493 @@
 .figma-tabs,
 .timeline,
 .formula { font-size: 17px; }
+
+.supplier-basic-page .profile-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.supplier-basic-page .profile-fields > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.supplier-basic-page .profile-fields small {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 5px 8px;
+  border-radius: 4px;
+  background: rgb(142, 203, 248);
+  color: #17324d !important;
+}
+
+.supplier-basic-page .profile-fields span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.supplier-basic-page {
+  color: #111827;
+}
+
+.supplier-basic-page input::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+
+@media (max-width: 700px) {
+  .supplier-basic-page .profile-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.figma-main {
+  --bg: #fff;
+  --card: #fff;
+  --line: #e5e7eb;
+  --line2: #cbd5e1;
+  --text: #111827;
+  --muted: #64748b;
+  --panel: #fff;
+  max-width: none;
+  color: #111827;
+  background: #fff;
+}
+
+.figma-main .page-heading h1,
+.figma-main .divider > b,
+.figma-main .stat b,
+.figma-main .figma-card > header,
+.figma-main .data-box > header,
+.figma-main .supplier-head h2,
+.figma-main .supplier-scroll > button,
+.figma-main .profile-fields span,
+.figma-main .timeline span,
+.figma-main .rating-score strong,
+.figma-main .pipeline span,
+.figma-main .formula b,
+.figma-main .order-summary span,
+.figma-main .workflow-step b,
+.figma-main .workflow-step span,
+.figma-main .workflow-step small,
+.figma-main .ratio-note,
+.figma-main .procurement-analysis h2,
+.figma-main .price-history-chart-block > header {
+  color: #111827;
+}
+
+.figma-main .figma-card,
+.figma-main .data-box,
+.figma-main .stat,
+.figma-main .divider,
+.figma-main .supplier-list,
+.figma-main .supplier-head,
+.figma-main .order-summary,
+.figma-main .procurement-analysis > article,
+.figma-main .price-history-filter,
+.figma-main .price-history-chart-block {
+  background: #fff;
+}
+
+.figma-main .fact-grid div,
+.figma-main .cost-grid div,
+.figma-main .search-mode button,
+.figma-main .supplier-list > input,
+.figma-main .compare-picks button,
+.figma-main .query-panel input,
+.figma-main .query-panel select {
+  color: #334155;
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.figma-main .search-mode button.active,
+.figma-main .figma-tabs button.active,
+.figma-main .query-panel button,
+.figma-main .price-history-filter button {
+  color: #fff;
+}
+
+.figma-main .supplier-list > input,
+.figma-main .price-history-filter input {
+  color-scheme: light;
+}
+
+.figma-main .supplier-list > input::placeholder,
+.figma-main .price-history-filter input::placeholder {
+  color: #64748b;
+}
+
+.figma-main .data-box th {
+  color: #1f2937;
+  background: rgb(142, 203, 248);
+}
+
+.figma-main .data-box td {
+  color: #334155;
+}
+
+.figma-main .data-box tbody tr:hover {
+  background: #f8fafc;
+}
+
+.figma-main .badge {
+  color: #334155;
+  background: #f1f5f9;
+}
+
+.figma-main .badge.活跃 {
+  color: #15803d;
+  background: #dcfce7;
+}
+
+.figma-main .badge.B,
+.figma-main .badge.考察中 {
+  color: #1d4ed8;
+  background: #dbeafe;
+}
+
+.figma-main .badge.C,
+.figma-main .badge.预警 {
+  color: #b45309;
+  background: #fef3c7;
+}
+
+.figma-main .badge.停用 {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.figma-main .donut:after {
+  background: #fff;
+  color: #111827;
+}
+
+.figma-main .bars-chart i,
+.figma-main .dimension-list i,
+.figma-main .pipeline-node {
+  background: #f1f5f9;
+}
+
+.figma-main .pipeline-node {
+  color: #1d4ed8;
+  border-color: #cbd5e1;
+}
+
+.figma-main .pipeline-step > b {
+  color: #111827;
+}
+
+.figma-main .pipeline-step > small,
+.figma-main .pipeline-arrow {
+  color: #64748b;
+}
+
+.figma-main .workflow-step.current b,
+.figma-main .workflow-step.current em {
+  color: #1d4ed8;
+}
+
+.figma-main .profile-subnav {
+  border-color: #e5e7eb;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 10px 28px rgb(15 23 42 / 10%);
+}
+
+.figma-main .profile-subnav button:hover {
+  color: #fff;
+  background: #0070db;
+}
+
+.supplier-filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.supplier-filter-bar > input,
+.supplier-filter-bar > select {
+  width: min(320px, 100%);
+  min-width: 200px;
+  height: 38px;
+  padding: 0 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #fff;
+  color: #111827;
+}
+
+.supplier-filter-bar > input {
+  flex: 1 1 250px;
+}
+
+.supplier-filter-bar > select {
+  width: auto;
+  min-width: 140px;
+}
+
+.supplier-query-modes {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background: #f1f5f9;
+}
+
+.supplier-query-modes label {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border-radius: 5px;
+  color: #475569;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.supplier-query-modes input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.supplier-query-modes label.active {
+  color: #1d4ed8;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 14%);
+}
+
+.supplier-query-modes label:focus-within {
+  outline: 2px solid #0070db;
+  outline-offset: 1px;
+}
+
+.supplier-filter-bar > button {
+  min-width: 76px;
+  height: 38px;
+  padding: 0 18px;
+  border: 1px solid #0070db;
+  border-radius: 6px;
+  background: #0070db;
+  color: #fff;
+  cursor: pointer;
+}
+
+.supplier-filter-bar > button:hover {
+  background: #005bb5;
+}
+
+.supplier-query-message {
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.figma-main .figma-tabs button:hover:not(.active) {
+  color: #fff;
+  background: #0070db;
+}
+
+.figma-sidebar > button,
+.figma-sidebar > button.active,
+.figma-sidebar > button span b {
+  color: #fff;
+}
+
+.figma-main .supplier-scroll > button.active {
+  color: #111827;
+  background: rgb(142, 203, 248);
+}
+
+.figma-main .price-history-filter label,
+.figma-main .price-history-chart-block > header {
+  color: #334155;
+}
+
+.figma-main .price-history-filter input {
+  border-color: #cbd5e1;
+  background: #fff;
+  color: #111827;
+}
+
+.figma-main .price-history-filter button {
+  border-color: #0e7490;
+  background: #0e7490;
+}
+
+.figma-main .price-history-chart-block > header {
+  border-color: #e5e7eb;
+}
+
+.supplier-detail-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.supplier-detail-heading h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 22px;
+}
+
+.supplier-detail-heading p {
+  margin: 5px 0 0;
+  color: #64748b;
+}
+
+.supplier-overview-link {
+  width: fit-content;
+  color: #0070db;
+  text-decoration: none;
+}
+
+.supplier-overview-link:hover {
+  text-decoration: underline;
+}
+
+.supplier-detail-tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 4px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.supplier-detail-tabs button {
+  flex: 1 0 auto;
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #475569;
+  cursor: pointer;
+}
+
+.supplier-detail-tabs button:hover {
+  background: #0070db;
+  color: #fff;
+}
+
+.supplier-detail-tabs button.active {
+  background: #2563eb;
+  color: #fff;
+}
+
+.supplier-directory {
+  min-width: 0;
+}
+
+.supplier-directory > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #111827;
+}
+
+.supplier-directory > header small {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.supplier-directory-filters {
+  margin-bottom: 0;
+}
+
+.figma-main .map-layout > .figma-card,
+.figma-main .map-layout > .data-box {
+  height: 520px;
+}
+
+.figma-main .map-layout > .figma-card > section,
+.figma-main .map-layout > .data-box > div {
+  height: calc(100% - 46px);
+}
+
+.figma-main .supplier-map-chart {
+  min-height: 450px;
+}
+
+.supplier-directory-table {
+  overflow-x: auto;
+}
+
+.supplier-directory-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.supplier-directory-table th,
+.supplier-directory-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.supplier-directory-table th {
+  background: rgb(142 203 248);
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.supplier-directory-table td {
+  color: #334155;
+}
+
+.supplier-directory-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.supplier-directory-view {
+  padding: 6px 10px;
+  border: 1px solid #0070db;
+  border-radius: 5px;
+  background: #0070db;
+  color: #fff;
+  cursor: pointer;
+}
+
+.supplier-directory-view:hover {
+  background: #005bb5;
+}
+
+.supplier-directory-empty {
+  padding: 24px !important;
+  color: #64748b !important;
+  text-align: center !important;
+}
+
+@media (max-width: 700px) {
+  .supplier-detail-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .supplier-filter-bar > input,
+  .supplier-filter-bar > select { min-width: 0; }
+}

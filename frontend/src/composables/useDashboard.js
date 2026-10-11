@@ -19,14 +19,16 @@ const D=ref(SupplierApi.emptyModel());
  const role=ref('公司管理层'),alertOpen=ref(true);
     const apiError=ref('');
     const supplierId=ref('218502'), detailTab=ref(0), priceTab=ref(0), searchMode=ref('name'), search=ref(''), ratingSearch=ref(''), selectedMaterial=ref(0);
-    const supplierSearchResults=ref([]), selectedSupplierDetail=ref(null), selectedSupplierProfile=ref(null);
+    const selectedSupplierDetail=ref(null), selectedSupplierProfile=ref(null);
     const profileYear=ref('2026'), profileStatus=ref('全部'), profileLevel=ref('全部');
+    const supplierDirectoryQuery=ref(''),supplierDirectorySearchMode=ref('name'),supplierDirectoryAppliedQuery=ref('');
+    const supplierDetailQuery=ref(''),supplierDetailSearchMode=ref('name'),supplierDetailStatus=ref(''),supplierDetailRating=ref(''),supplierDetailQueryMessage=ref('');
     const deliveryStart=ref('2026-01-01'), deliveryEnd=ref('2026-12-31'), deliveryStatus=ref('全部'), deliveryOrderQuery=ref(''), flowSupplierQuery=ref(''), flowBuyerQuery=ref('');
     const compareIds=ref(['S001','S002']);
     const current=computed(()=>NAV.find(n=>n.id===active.value));
     const profileOverview=computed(()=>D.value.profileOverview);
     const supplier=computed(()=>selectedSupplierDetail.value||D.value.suppliers.find(s=>s.id===supplierId.value)||D.value.suppliers[0]);
-    const supplierList=computed(()=>supplierSearchResults.value);
+    const supplierList=computed(()=>D.value.suppliers);
     const riskAlerts=computed(()=>[
       ...D.value.suppliers.filter(item=>item.risk==='高').map(item=>`${item.name}：${item.risk}风险，${item.status}`),
       ...D.value.anomalies.map(item=>`${item[0]} ${item[3]}：交付比例 ${item[5]}，${item[9]}`),
@@ -134,14 +136,6 @@ const D=ref(SupplierApi.emptyModel());
     watch(supplierId,id=>{
       if(D.value.suppliers.length>0 && D.value.suppliers[0].id)loadSupplierProfile(id);
     });
-    let supplierSearchRequest=0;
-    watch([search,searchMode],async()=>{
-      const request=++supplierSearchRequest;
-      try {
-        const results=await SupplierApi.searchSuppliers(search.value,searchMode.value);
-        if(request===supplierSearchRequest)supplierSearchResults.value=results;
-      } catch (error) { apiError.value=error.message; }
-    });
     let profileOverviewRequest=0;
     watch([profileStatus,profileLevel],async()=>{
       const request=++profileOverviewRequest;
@@ -154,12 +148,11 @@ const D=ref(SupplierApi.emptyModel());
     onMounted(async()=>{
       try {
         D.value=await SupplierApi.loadModel();
-        supplierSearchResults.value=D.value.suppliers;
         await loadSupplierProfile(supplierId.value);
       }
       catch (error) { apiError.value=error.message; }
     });
-    const state={D,NAV,active,profileSub,deliverySub,role,alertOpen,apiError,supplierId,detailTab,priceTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,deliveryStart,deliveryEnd,deliveryStatus,deliveryOrderQuery,flowSupplierQuery,flowBuyerQuery,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,filteredDeliveryOrders,deliveryStatusOptions,selectedFlowOrder,workflowNodes,flowOrderRows,deliverySummaryCards,procurementMaterialAnalysis,abnormalOrders,fulfillmentRows,shortageRows,shortageSupplierChart,shortageMaterialChart,supplyExecution,buildSupplyExecution,supplierNameById,materialNameById,selectSupplier,toggleCompare};
+    const state={D,NAV,active,profileSub,deliverySub,role,alertOpen,apiError,supplierId,detailTab,priceTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,supplierDirectoryQuery,supplierDirectorySearchMode,supplierDirectoryAppliedQuery,supplierDetailQuery,supplierDetailSearchMode,supplierDetailStatus,supplierDetailRating,supplierDetailQueryMessage,deliveryStart,deliveryEnd,deliveryStatus,deliveryOrderQuery,flowSupplierQuery,flowBuyerQuery,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,filteredDeliveryOrders,deliveryStatusOptions,selectedFlowOrder,workflowNodes,flowOrderRows,deliverySummaryCards,procurementMaterialAnalysis,abnormalOrders,fulfillmentRows,shortageRows,shortageSupplierChart,shortageMaterialChart,supplyExecution,buildSupplyExecution,supplierNameById,materialNameById,selectSupplier,toggleCompare};
  provide(dashboardKey,state);return state;
 }
 export function useDashboard(){const state=inject(dashboardKey);if(!state)throw Error('Dashboard provider missing');return state;}

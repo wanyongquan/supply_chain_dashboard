@@ -6,11 +6,11 @@ const {D,NAV,active,profileSub,deliverySub,role,apiError,supplierId,detailTab,pr
   <div class="figma-app">
     <div v-if="apiError" class="figma-alert"><b>数据接口异常</b><span>{{apiError}}</span></div>
     <header class="figma-top">
-      <div class="figma-brand"><span>◈</span><div><b>供应链数据中台</b><small>Supplier Intelligence Platform</small></div></div>
-      <div class="top-actions"><small>数据源：Demo 原始记录</small><select v-model="role"><option>公司管理层</option><option>中层管理层</option></select><i>采</i></div>
+      <div class="figma-brand"><span>◈</span><div><b>供应链数据中台</b></div></div>
+      <div class="top-actions"><select v-model="role"><option>公司管理层</option><option>中层管理层</option></select></div>
     </header>
     <div class="app-workspace">
-      <aside class="figma-sidebar"><div class="side-caption">供应链主题看板</div><button v-for="n in NAV" :class="{active:active===n.id}" @click="active=n.id"><i>{{n.icon}}</i><span><b>{{n.label}}</b></span></button><div class="side-status"><b>数据源状态</b><span><i></i>Demo JSON 已加载</span><small>统计由原始记录生成</small></div></aside>
+      <aside class="figma-sidebar"><button v-for="n in NAV" :class="{active:active===n.id}" @click="active=n.id"><i>{{n.icon}}</i><span><b>{{n.label}}</b></span></button><div class="side-status"><b>数据源状态</b><span><i></i>Demo JSON 已加载</span><small>统计由原始记录生成</small></div></aside>
       <main class="figma-main"><div class="page-heading"><div><h1>{{current.label}}</h1></div></div>
 
         <RouterView />

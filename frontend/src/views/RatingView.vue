@@ -76,9 +76,10 @@ const selectRatingSupplier=item=>{selectedSupplierId.value=item.id;};
 .rating-table-wrap{overflow-x:auto;}
 .rating-results table{width:100%;border-collapse:collapse;}
 .rating-results th,.rating-results td{padding:10px 12px;text-align:left;white-space:nowrap;}
-.rating-results th{color:#94a3b8;font-weight:500;border-bottom:1px solid #1e293b;}
+.rating-results th{color:#1f2937;background:rgb(142,203,248);font-weight:500;border-bottom:1px solid #cbd5e1;}
 .rating-results tbody tr{cursor:pointer;}
-.rating-results tbody tr:hover,.rating-results tbody tr.rating-selected-row{background:#17243a;}
+.rating-results tbody tr:hover,.rating-results tbody tr.rating-selected-row{background:#0070db;color:#fff;}
+.rating-results tbody tr:hover td,.rating-results tbody tr.rating-selected-row td{color:#fff;}
 .rating-results tbody tr:focus-visible{outline:2px solid #60a5fa;outline-offset:-2px;}
 .rating-empty{text-align:center!important;color:#94a3b8;padding:22px!important;}
 .rating-pagination{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding:10px 14px;border-top:1px solid #1e293b;color:#94a3b8;font-size:12px;}

@@ -149,6 +149,25 @@ class SupplierModel:
                 (row.get("actual_delivery_date") or row.get("expected_delivery_date", "") for row in orders if row["material_id"] == material["material_id"]),
                 default="-",
             )
+        profile = supplier.get("profile", {})
+        primary_material = self.materials.get(supplier.get("primary_material_id"), {})
+        profile_fields = [
+            ("统一社会信用代码", profile.get("unified_social_credit_code")),
+            ("企业名称", supplier.get("supplier_name")),
+            ("法定代表人", profile.get("legal_representative") or profile.get("contact_name")),
+            (
+                "等级状态",
+                f"{supplier.get('rating') or '未评级'}级 · {supplier.get('lifecycle_status') or '未知'}",
+            ),
+            ("成立日期", profile.get("established_at")),
+            ("注册资本", profile.get("registered_capital")),
+            ("企业类型", profile.get("enterprise_type")),
+            ("所属地区", profile.get("region") or supplier.get("province") or profile.get("registered_address")),
+            ("注册地址", profile.get("registered_address")),
+            ("主营产品", profile.get("main_products") or primary_material.get("material_name")),
+            ("经营范围", profile.get("business_scope")),
+            ("年营业额", profile.get("annual_revenue")),
+        ]
         completed_orders = sum(item["status"] == "已完成" for item in orders)
         return {
             **detail,
@@ -168,21 +187,8 @@ class SupplierModel:
                 "eight_d_closure_rate": round(100 * sum(item.get("eight_d_status") == "已关闭" for item in quality) / len(quality), 1) if quality else None,
             },
             "profile_fields": [
-                {"label": label, "value": supplier.get("profile", {}).get(key, "-")}
-                for key, label in (
-                    ("unified_social_credit_code", "统一社会信用代码"),
-                    ("registered_address", "注册地址"),
-                    ("established_at", "成立时间"),
-                    ("registered_capital", "注册资本"),
-                    ("main_business", "主营业务"),
-                    ("certifications", "认证资质"),
-                    ("contact_name", "联系人"),
-                    ("contact_phone", "联系电话"),
-                    ("admission_date", "准入日期"),
-                    ("supplier_type", "供应商类型"),
-                    ("payment_terms", "付款周期"),
-                    ("contract_valid_until", "合同有效期至"),
-                )
+                {"label": label, "value": value if value not in (None, "") else "-"}
+                for label, value in profile_fields
             ],
             "credit": supplier.get("credit", {}),
         }
