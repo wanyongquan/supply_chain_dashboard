@@ -1,7 +1,17 @@
 <script setup>
 import {useDashboard} from '../../composables/useDashboard';
-const {D,NAV,active,profileSub,deliverySub,role,alertOpen,apiError,supplierId,detailTab,priceTab,searchMode,search,ratingSearch,selectedMaterial,compareIds,profileYear,profileStatus,profileLevel,deliveryStart,deliveryEnd,deliveryStatus,deliveryOrderQuery,profileOverview,overviewRatingDistribution,ratingDonutStyle,fullRatingDonutStyle,selectedSupplierProfile,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,riskAlerts,current,supplier,supplierList,overviewSuppliers,ratingList,dims,provinceOverview,filteredDeliveryOrders,deliveryStatusOptions,selectedFlowOrder,workflowNodes,deliverySummaryCards,abnormalOrders,fulfillmentRows,shortageRows,shortageSupplierChart,shortageMaterialChart,supplyExecution,supplierNameById,materialNameById,selectSupplier,toggleCompare}=useDashboard();
+const {deliveryStart,deliveryEnd,fulfillmentSummary,fulfillmentRows}=useDashboard();
 </script>
 <template>
-<section class="page-stack"><div class="query-panel"><label>开始日期<input type="date" v-model="deliveryStart"></label><label>结束日期<input type="date" v-model="deliveryEnd"></label><label>订单状态<select v-model="deliveryStatus"><option>全部</option><option v-for="x in deliveryStatusOptions">{{x}}</option></select></label><button>查询</button></div><DataBox title="采购订单履约明细" :headers="['订单号','订单日期','供应商','物料编号','物料名称','订单量','预计交期','实际到货','状态','交付比例','逾期天数','逾期数量','确认时长（天）']" :rows="fulfillmentRows"/></section>
+<section class="page-stack">
+  <div class="query-panel fulfillment-query">
+    <label class="fulfillment-date">开始日期<input type="date" v-model="deliveryStart"></label>
+    <label class="fulfillment-date">结束日期<input type="date" v-model="deliveryEnd"></label>
+    <button type="button">查询</button>
+  </div>
+  <div class="stat-grid four indicator-card-group delivery-risk-stats">
+    <Stat v-for="item in fulfillmentSummary" :key="item.label" :label="item.label" :value="item.value" :tone="item.tone" />
+  </div>
+  <DataBox title="交付风险明细" :headers="['状态','预期天数','订单号','供应商名称','物料编码','物料名称','单位','采购数量','到货数量','收货日期','要求交货日期']" :rows="fulfillmentRows"/>
+</section>
 </template>

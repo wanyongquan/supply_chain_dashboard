@@ -13,7 +13,7 @@ const maxProvinceCount=computed(()=>Math.max(1,...provinceRanking.value.map(item
 <template>
 <section class="page-stack">
           <SupplierDirectoryFilters/>
-          <div class="stat-grid six"><Stat label="供应商总数" :value="profileOverview.supplier_count+'家'"/><Stat label="在供供应商" :value="profileOverview.active_supplier_count+'家'" tone="green"/><Stat label="中高风险供应商" :value="profileOverview.risk_supplier_count+'家'" tone="amber"/><Stat label="平均评级得分" :value="profileOverview.average_score+'分'"/><Stat label="准时交付率" :value="profileOverview.on_time_delivery_rate===null?'暂无':profileOverview.on_time_delivery_rate+'%'" tone="green"/><Stat label="批次质量合格率" :value="profileOverview.quality_pass_rate===null?'暂无':profileOverview.quality_pass_rate+'%'" tone="green"/></div>
+          <div class="stat-grid five indicator-card-group supplier-overview-stats"><Stat label="供应商总数" :value="profileOverview.supplier_count+'家'"/><Stat label="在供供应商" :value="profileOverview.active_supplier_count+'家'" tone="green"/><Stat label="中高风险供应商" :value="profileOverview.risk_supplier_count+'家'" tone="amber"/><Stat label="平均评级得分" :value="profileOverview.average_score+'分'"/><Stat label="准时交付率" :value="profileOverview.on_time_delivery_rate===null?'暂无':profileOverview.on_time_delivery_rate+'%'" tone="green"/></div>
           <div class="grid map-layout">
             <Card title="供应商省份分布"><SupplierMap :data="provinceOverview" /></Card>
             <Card title="省份供应商数量排行">

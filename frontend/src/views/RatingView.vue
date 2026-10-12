@@ -9,6 +9,10 @@ const pageSize=ref(10);
 const page=ref(1);
 const selectedSupplierId=ref('');
 const pageSizes=[10,20,50];
+const topRankedSuppliers=computed(()=>D.value.suppliers
+  .slice()
+  .sort((first,second)=>(Number(second.score)||0)-(Number(first.score)||0))
+  .slice(0,5));
 const ratingResults=computed(()=>{
   const query=appliedRatingQuery.value;
   return D.value.suppliers
@@ -47,14 +51,27 @@ const selectRatingSupplier=item=>{selectedSupplierId.value=item.id;};
 <template>
 <section class="page-stack">
           <Divider label="供应商评级整体分析" :hot="role==='公司管理层'" :role="role"/>
-          <div class="stat-grid six">
+          <div class="stat-grid six indicator-card-group rating-overview-stats">
             <Stat label="已评级供应商" :value="D.ratingSummary.total+'家'"/>
             <Stat label="A级供应商总数" :value="D.ratingSummary.counts.A+'家'" tone="green"/>
             <Stat label="B级供应商总数" :value="D.ratingSummary.counts.B+'家'" tone="blue"/>
             <Stat label="C级供应商总数" :value="D.ratingSummary.counts.C+'家'" tone="amber"/>
             <Stat label="D级供应商总数" :value="D.ratingSummary.counts.D+'家'" tone="amber"/>
             <Stat label="整体平均分" :value="D.ratingSummary.averageScore.toFixed(1)"/></div>
-          <div class="grid two"><Card title="等级分布"><SupplierRatingPie :rows="D.ratingDistribution" :total="D.ratingSummary.total"/></Card><BarBox title="综合得分排名" :values="ratingList.map(s=>s.score)" :labels="ratingList.map(s=>s.name.slice(0,5))"/></div>
+          <div class="grid two rating-chart-grid">
+            <Card title="等级分布"><SupplierRatingPie :rows="D.ratingDistribution" :total="D.ratingSummary.total"/></Card>
+            <Card title="综合得分排名前5">
+              <div class="rating-top-five">
+                <div v-for="(item,index) in topRankedSuppliers" :key="item.id" class="rating-top-five-row">
+                  <span class="rating-top-five-rank">{{index+1}}</span>
+                  <span class="rating-top-five-name" :title="item.name">{{item.name}}</span>
+                  <div class="rating-top-five-track"><i :style="{width:`${Math.max(0,Math.min(100,Number(item.score)||0))}%`}"></i></div>
+                  <b>{{item.score??'暂无'}}</b>
+                </div>
+                <p v-if="!topRankedSuppliers.length" class="rating-top-five-empty">暂无评级数据</p>
+              </div>
+            </Card>
+          </div>
           <Divider label="供应商评级详情查询" :hot="role==='中层管理层'" :role="role"/>
           <form class="query-panel rating-query" @submit.prevent="submitRatingQuery"><input v-model="ratingQuery" aria-label="供应商名称或编号" placeholder="供应商名称 / 编号"><button type="submit">查询</button></form>
           <article class="data-box rating-results">
@@ -65,7 +82,7 @@ const selectRatingSupplier=item=>{selectedSupplierId.value=item.id;};
             </tbody></table></div>
             <footer class="rating-pagination"><span>显示 {{firstVisibleRow}}-{{lastVisibleRow}} 条，共 {{ratingResults.length}} 家</span><label>每页<select v-model.number="pageSize"><option v-for="size in pageSizes" :key="size" :value="size">{{size}}条/页</option></select></label><button type="button" :disabled="page<=1" @click="page--">上一页</button><span>{{page}} / {{totalPages}}</span><button type="button" :disabled="page>=totalPages" @click="page++">下一页</button></footer>
           </article>
-          <div v-if="selectedRatingSupplier" class="rating-result"><div class="rating-score"><small>综合评级</small><b>{{selectedRatingSupplier.level}}级</b><strong>{{selectedRatingSupplier.score??'暂无'}}</strong><span>/ 100分</span></div><div class="dimension-list"><div v-for="item in selectedDimensions" :key="item.name"><span>{{item.name}}</span><i><b :style="{width:item.score===null?'0%':(item.score/item.full*100)+'%'}"></b></i><strong>{{item.score??'暂无'}} / {{item.full}}</strong></div></div><div class="rating-adjustment"><small>修正系数</small><strong>{{ratingCorrectionFactor===null?'暂无':ratingCorrectionFactor.toFixed(3)}}</strong><span>按综合分 ÷ 五项分合计反算</span></div></div>
+          <div v-if="selectedRatingSupplier" class="rating-result"><div class="rating-score"><small>综合评级</small><b>{{selectedRatingSupplier.level}}级</b><strong>{{selectedRatingSupplier.score??'暂无'}}</strong><span>/ 100分</span></div><div class="dimension-list"><div v-for="item in selectedDimensions" :key="item.name"><span>{{item.name}}</span><i><b :style="{width:item.score===null?'0%':(item.score/item.full*100)+'%'}"></b></i><strong>{{item.score??'暂无'}} / {{item.full}}</strong></div><div class="rating-adjustment"><small>修正系数</small><strong>{{ratingCorrectionFactor===null?'暂无':ratingCorrectionFactor.toFixed(3)}}</strong></div></div></div>
           <div v-else class="rating-result-empty">点击上方列表中的供应商查看综合评级、分项得分和修正系数</div>
         </section>
 </template>
@@ -88,10 +105,20 @@ const selectRatingSupplier=item=>{selectedSupplierId.value=item.id;};
 .rating-pagination select,.rating-pagination button{height:30px;padding:0 9px;border:1px solid #334155;border-radius:5px;background:#111827;color:#cbd5e1;}
 .rating-pagination button{cursor:pointer;}
 .rating-pagination button:disabled{opacity:.45;cursor:not-allowed;}
-.rating-adjustment{display:flex;flex-direction:column;align-items:flex-start;gap:5px;padding:12px;border-left:1px solid #1e293b;}
-.rating-adjustment small,.rating-adjustment span,.rating-result-empty{color:#94a3b8;}
-.rating-adjustment strong{font-size:20px;color:#f8fafc;}
-.rating-adjustment span{font-size:11px;}
-.rating-result-empty{padding:20px;border:1px solid #1e293b;border-radius:8px;background:#0f172a;}
+.rating-adjustment{grid-template-columns:1fr 70px!important;padding:12px 0 0;border-top:1px solid #cbd5e1;}
+.rating-adjustment small,.rating-adjustment strong{color:#111827;}
+.rating-adjustment strong{font-size:14px;text-align:right;}
+.rating-result-empty{padding:16px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#111827;}
+.rating-chart-grid{align-items:stretch;}
+.rating-chart-grid :deep(.figma-card > section){padding:10px;}
+.rating-chart-grid :deep(.rating-pie-chart){height:220px;}
+.rating-top-five{display:grid;gap:10px;min-height:220px;align-content:center;}
+.rating-top-five-row{display:grid;grid-template-columns:22px minmax(80px,140px) minmax(60px,1fr) 38px;align-items:center;gap:8px;color:#111827;font-size:12px;}
+.rating-top-five-rank{color:#64748b;text-align:center;}
+.rating-top-five-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rating-top-five-track{height:9px;overflow:hidden;border-radius:999px;background:#e8eef5;}
+.rating-top-five-track i{display:block;height:100%;border-radius:inherit;background:#3b82f6;}
+.rating-top-five-row b{color:#1d4ed8;text-align:right;}
+.rating-top-five-empty{margin:0;color:#111827;}
 @media(max-width:700px){.rating-adjustment{grid-column:1/-1;border-left:0;border-top:1px solid #1e293b;}}
 </style>

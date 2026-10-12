@@ -3,9 +3,9 @@ import {computed} from 'vue';
 import {useDashboard} from '../../composables/useDashboard';
 
 const {
-  deliveryStart,deliveryEnd,deliveryOrderQuery,flowSupplierQuery,flowBuyerQuery,flowOrderType,
+  deliveryStart,deliveryEnd,deliveryOrderQuery,flowSupplierQuery,flowBuyerQuery,flowOrderType,flowOrderStatus,
   flowOrderRows,selectedFlowOrder,selectedFlowOrderId,activeWorkflowStage,
-  selectFlowOrder,D
+  deliverySummaryCards,selectFlowOrder,D
 }=useDashboard();
 
 const materialNameById=id=>D.value.materials.find(item=>item[0]===id)?.[1]||id||'未知物料';
@@ -156,13 +156,21 @@ function focusStage(index){
 <template>
   <section class="page-stack">
     <div class="query-panel flow-query">
-      <label>订单编号<input v-model="deliveryOrderQuery" placeholder="请输入订单编号"></label>
-      <label>订单类型<select v-model="flowOrderType"><option>全部</option><option>量产订单</option><option>新品开发</option></select></label>
-      <label>供应商<input v-model="flowSupplierQuery" placeholder="请输入供应商名称"></label>
-      <label>采购员<input v-model="flowBuyerQuery" placeholder="请输入采购员"></label>
-      <label>开始日期<input type="date" v-model="deliveryStart"></label>
-      <label>结束日期<input type="date" v-model="deliveryEnd"></label>
+      <label class="flow-filter-order">订单编号<input v-model="deliveryOrderQuery" placeholder="请输入订单编号"></label>
+      <label class="flow-filter-type">订单类型<select v-model="flowOrderType"><option>全部</option><option>量产订单</option><option>新品开发</option></select></label>
+      <label class="flow-filter-supplier">供应商<input v-model="flowSupplierQuery" placeholder="请输入供应商名称"></label>
+      <label class="flow-filter-buyer">采购员<input v-model="flowBuyerQuery" placeholder="请输入采购员"></label>
+      <label class="flow-filter-status">订单状态<select v-model="flowOrderStatus"><option>全部</option><option>请购单</option><option>采购单</option><option>已受理</option><option>已发货</option><option>检验中</option><option>已入库</option></select></label>
+      <label class="flow-filter-date">开始日期<input type="date" v-model="deliveryStart"></label>
+      <label class="flow-filter-date">结束日期<input type="date" v-model="deliveryEnd"></label>
       <button type="button">查询</button>
+    </div>
+    <div class="delivery-stage-grid">
+      <article v-for="x in deliverySummaryCards" :key="x.title" :class="['delivery-stage',x.tone]">
+        <h3>{{x.title}}</h3>
+        <div><span>{{x.a}}</span><span>{{x.b}}</span></div>
+        <div><b>{{x.av}}</b><b>{{x.bv}}</b></div>
+      </article>
     </div>
     <article class="data-box order-detail-table">
       <header>采购订单与送货进度</header>
@@ -170,7 +178,7 @@ function focusStage(index){
         <table>
           <thead>
             <tr>
-              <th v-for="heading in ['订单号','订单日期','采购员','供应商名称','订单笔数','订单状态','供应商受理','累计发货','累计收货','未收数量','送货单号']" :key="heading">{{heading}}</th>
+              <th v-for="heading in ['订单号','订单日期','采购员','供应商名称','订单笔数','订单状态','累计发货','累计收货','未收数量','送货单号']" :key="heading">{{heading}}</th>
               <th class="order-progress-heading">
                 <span>订单进度</span>
                 <div class="order-progress-labels">
@@ -189,13 +197,13 @@ function focusStage(index){
               @keydown.enter="selectOrder(item.orderId)"
             >
               <td>{{item.orderId}}</td><td>{{item.orderDate}}</td><td>{{item.buyer}}</td><td>{{item.supplier}}</td>
-              <td>{{item.lineCount}}笔</td><td><span :class="['flow-status',item.orderStatus]">{{item.orderStatus}}</span></td>
-              <td>{{item.acceptanceStatus}}</td><td>{{item.hasShipment?item.shipped:'-'}}</td>
+              <td>{{item.lineCount}}笔</td><td><span :class="['flow-status',item.orderStatus]">{{item.orderStatus}}</span><span v-if="item.acceptanceStatus!==item.orderStatus" :class="['flow-status','acceptance-status',item.acceptanceStatus]">{{item.acceptanceStatus}}</span></td>
+              <td>{{item.hasShipment?item.shipped:'-'}}</td>
               <td>{{item.hasShipment?item.received:'-'}}</td><td>{{item.hasShipment?item.unreceived:'-'}}</td>
               <td>{{item.deliveryNotes}}</td>
               <td><div class="order-progress"><i v-for="(done,index) in item.progress" :key="index" :class="{done}"></i></div></td>
             </tr>
-            <tr v-if="!flowOrderRows.length"><td colspan="12" class="empty-cell">暂无符合条件的订单</td></tr>
+            <tr v-if="!flowOrderRows.length"><td colspan="11" class="empty-cell">暂无符合条件的订单</td></tr>
           </tbody>
         </table>
       </div>
@@ -204,7 +212,7 @@ function focusStage(index){
     <section v-if="selectedFlowOrder" class="order-lifecycle">
       <header class="order-lifecycle-header">
         <div>
-          <span class="order-lifecycle-kicker">ORDER LIFECYCLE</span>
+          <span class="order-lifecycle-kicker">流程追踪</span>
           <h2>订单全链路状态</h2>
           <p>{{selectedFlowOrder.order_id}} <i>·</i> {{selectedFlowOrder.supplier_id}} <i>·</i> {{selectedFlowOrder.order_date||'订单日期待更新'}}</p>
         </div>
