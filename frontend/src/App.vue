@@ -10,7 +10,7 @@ const {D,NAV,active,profileSub,deliverySub,role,apiError,supplierId,detailTab,pr
       <div class="top-actions"><select v-model="role"><option>公司管理层</option><option>中层管理层</option></select></div>
     </header>
     <div class="app-workspace">
-      <aside class="figma-sidebar"><button v-for="n in NAV" :class="{active:active===n.id}" @click="active=n.id"><i>{{n.icon}}</i><span><b>{{n.label}}</b></span></button><div class="side-status"><b>数据源状态</b><span><i></i>示例数据已加载</span><small>统计由原始记录生成</small></div></aside>
+      <aside class="figma-sidebar"><button v-for="n in NAV" :class="{active:active===n.id}" @click="active=n.id"><i>{{n.icon}}</i><span><b>{{n.label}}</b></span></button></aside>
       <main class="figma-main"><div class="page-heading"><div><h1>{{current.label}}</h1></div></div>
 
         <RouterView />

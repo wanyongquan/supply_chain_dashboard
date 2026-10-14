@@ -70,13 +70,13 @@ const SupplierApi = (() => {
     return {
       id: item.supplier_id,
       name: item.supplier_name,
-      category: item.supplier_category,
-      level: item.rating,
+      category: item.supplier_category || '未分类',
+      level: item.rating || '未评级',
       score: item.evaluation_score ?? null,
-      status: item.lifecycle_status,
+      status: item.lifecycle_status || '未知',
       region: item.province || '未填写',
       lastEval: events.length ? events[events.length - 1].date : '-',
-      risk: item.risk_level,
+      risk: item.risk_level || '未评估',
       ratingDimensions: item.rating_dimensions || []
     };
   }

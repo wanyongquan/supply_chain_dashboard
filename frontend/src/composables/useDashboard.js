@@ -35,7 +35,15 @@ const D=ref(SupplierApi.emptyModel());
       ...D.value.anomalies.map(item=>`${item[0]} ${item[3]}：交付比例 ${item[5]}，${item[9]}`),
       ...D.value.shortages.filter(item=>item[8]==='高').map(item=>`${item[7]}：${item[0]}供货天数 ${item[4]} 天，库存预警`)
     ]);
-    const provinceOverview=computed(()=>Object.fromEntries((profileOverview.value?.province_distribution||[]).map(item=>[item.name,Number(item.count)||0])));
+    const provinceOverview=computed(()=>{
+      const counts=new Map();
+      D.value.suppliers.forEach(item=>{
+        const province=(item.region||'').trim();
+        if(!province||province==='未填写')return;
+        counts.set(province,(counts.get(province)||0)+1);
+      });
+      return Object.fromEntries(counts);
+    });
     const overviewRatingDistribution=computed(()=> (profileOverview.value?.rating_distribution||[]).map(item=>({level:item.name==='未评级'?item.name:`${item.name}级`,count:Number(item.count)||0,color:({A:'#22c55e',B:'#3b82f6',C:'#f59e0b',D:'#ef4444'})[item.name]||'#64748b'})));
     const ratingDonutStyle=computed(()=>{
       const total=overviewRatingDistribution.value.reduce((sum,item)=>sum+item.count,0);

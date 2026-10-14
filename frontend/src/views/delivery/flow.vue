@@ -116,7 +116,6 @@ const orderStages=computed(()=>{
       status:statusLabel(4),owner:'暂无数据',
       summary:[{label:'到货状态',value:[...new Set(receiptRows.map(item=>item.status).filter(Boolean))].join('、')||'待到货'},
         {label:'质检单创建时间',value:quality.map(item=>item.inspection_date).filter(Boolean).join('、')||'暂无数据'},
-        {label:'质检关联说明',value:exactQuality.length?'按订单号匹配':quality.length?'按供应商及物料匹配（数据源无订单号）':'暂无质检关联数据'},
         {label:'质检状态',value:[...new Set(quality.map(item=>item.conclusion).filter(Boolean))].join('、')||'待检'}],
       items:receiptItems,itemHeading:'到货及检验明细',itemType:'inspection',
       extraItems:quality.map(item=>({

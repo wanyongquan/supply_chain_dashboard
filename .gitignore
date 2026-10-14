@@ -222,3 +222,4 @@ __marimo__/
 # Vue build output and local dependencies
 frontend/node_modules/
 frontend/dist/
+__pycache__/

@@ -83,7 +83,6 @@ const selectRatingSupplier=item=>{selectedSupplierId.value=item.id;};
             <footer class="rating-pagination"><span>显示 {{firstVisibleRow}}-{{lastVisibleRow}} 条，共 {{ratingResults.length}} 家</span><label>每页<select v-model.number="pageSize"><option v-for="size in pageSizes" :key="size" :value="size">{{size}}条/页</option></select></label><button type="button" :disabled="page<=1" @click="page--">上一页</button><span>{{page}} / {{totalPages}}</span><button type="button" :disabled="page>=totalPages" @click="page++">下一页</button></footer>
           </article>
           <div v-if="selectedRatingSupplier" class="rating-result"><div class="rating-score"><small>综合评级</small><b>{{selectedRatingSupplier.level}}级</b><strong>{{selectedRatingSupplier.score??'暂无'}}</strong><span>/ 100分</span></div><div class="dimension-list"><div v-for="item in selectedDimensions" :key="item.name"><span>{{item.name}}</span><i><b :style="{width:item.score===null?'0%':(item.score/item.full*100)+'%'}"></b></i><strong>{{item.score??'暂无'}} / {{item.full}}</strong></div><div class="rating-adjustment"><small>修正系数</small><strong>{{ratingCorrectionFactor===null?'暂无':ratingCorrectionFactor.toFixed(3)}}</strong></div></div></div>
-          <div v-else class="rating-result-empty">点击上方列表中的供应商查看综合评级、分项得分和修正系数</div>
         </section>
 </template>
 
@@ -108,7 +107,6 @@ const selectRatingSupplier=item=>{selectedSupplierId.value=item.id;};
 .rating-adjustment{grid-template-columns:1fr 70px!important;padding:12px 0 0;border-top:1px solid #cbd5e1;}
 .rating-adjustment small,.rating-adjustment strong{color:#111827;}
 .rating-adjustment strong{font-size:14px;text-align:right;}
-.rating-result-empty{padding:16px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#111827;}
 .rating-chart-grid{align-items:stretch;}
 .rating-chart-grid :deep(.figma-card > section){padding:10px;}
 .rating-chart-grid :deep(.rating-pie-chart){height:220px;}

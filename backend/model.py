@@ -72,7 +72,7 @@ class SupplierModel:
             rating_names.append("未评级")
         lifecycle_names = ["在供", "准入/评估中", "暂停", "终止"]
         lifecycle_names.extend(sorted({item.get("lifecycle_status") or "未知" for item in suppliers} - set(lifecycle_names)))
-        province_counts = Counter(item.get("province", "未填写") for item in suppliers)
+        province_counts = Counter(item.get("province") or "未填写" for item in suppliers if item.get("province"))
         orders = [item for item in self.data["orders"] if item["supplier_id"] in supplier_ids]
         delivered = [item for item in orders if item.get("actual_delivery_date")]
         quality = [item for item in self.data["quality"] if item["supplier_id"] in supplier_ids]
