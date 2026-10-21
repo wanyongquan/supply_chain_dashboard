@@ -3,10 +3,8 @@ import {useRoute,useRouter} from 'vue-router';
 import SupplierApi from '../api';
 const dashboardKey=Symbol('dashboard');
 const NAV = [
-  {id:'profile',label:'供应商画像',icon:'◉'},
-  {id:'rating',label:'供应商评级',icon:'☆'},
-  {id:'delivery',label:'采购全流程协同',icon:'⇄'},
-  {id:'price',label:'采购价格',icon:'▥'}
+  {id:'profile',label:'供应商画像和绩效评级',icon:'◉'},
+  {id:'delivery',label:'采购交付保障驾驶舱',icon:'⇄'}
 ];
 
 

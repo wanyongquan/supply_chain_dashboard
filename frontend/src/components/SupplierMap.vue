@@ -2,7 +2,8 @@
 import { ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import * as echarts from 'echarts';
 
-const props = defineProps({ data: { type: Object, default: () => ({}) } });
+const props = defineProps({ data: { type: Object, default: () => ({}) },dark:Boolean });
+const emit=defineEmits(['select']);
 const container = ref(null);
 const error = ref('');
 let chart, observer, stopped = false;
@@ -15,7 +16,22 @@ function update() {
     .flatMap(([name,value]) => [{name,value}, {name:provinceName(name),value}]);
   chart.setOption({
     tooltip: {trigger:'item',formatter:p=>`${p.name}<br/>供应商数量：${Number.isFinite(Number(p.value)) ? Number(p.value) : 0} 家`},
-    visualMap: {min:1,max:Math.max(1,...data.map(x=>x.value)),left:12,bottom:12,text:['多','少'],calculable:false,textStyle:{color:'#334155',fontSize:10},inRange:{color:['#60a5fa','#0057b8']}},
+    visualMap: {
+      type:'piecewise',
+      left:12,
+      bottom:12,
+      itemWidth:14,
+      itemHeight:10,
+      itemGap:6,
+      calculable:false,
+      textStyle:{color:props.dark?'#b9d4ee':'#334155',fontSize:10},
+      pieces:[
+        {min:101,label:'100家以上',color:'#0057b8'},
+        {min:51,max:100,label:'51-100家',color:'#2478c8'},
+        {min:11,max:50,label:'11-50家',color:'#60a5fa'},
+        {min:0,max:10,label:'0-10家',color:'#bfdbfe'}
+      ]
+    },
     series:[{type:'map',map:'china',roam:false,layoutCenter:['50%','48%'],layoutSize:'116%',label:{show:true,color:'#334155',fontSize:9},itemStyle:{areaColor:'#dbeafe',borderColor:'#fff',borderWidth:1},emphasis:{label:{color:'#fff'},itemStyle:{areaColor:'#003f8c'}},data}]
   });
 }
@@ -31,6 +47,7 @@ onMounted(async () => {
     }
     if (stopped) return;
     chart=echarts.init(container.value);
+    chart.on('click',params=>emit('select',Object.keys(props.data).find(name=>params.name===name||params.name===provinceName(name))||params.name));
     update();
     observer=new ResizeObserver(()=>chart?.resize());
     observer.observe(container.value);
@@ -42,7 +59,7 @@ watch(()=>props.data,update,{deep:true});
 onBeforeUnmount(()=>{stopped=true;controller?.abort();observer?.disconnect();chart?.dispose();chart=null;});
 </script>
 
-<template><div ref="container" class="supplier-map-chart"><div v-if="error" class="map-loading">{{error}}</div></div></template>
+<template><div ref="container" class="supplier-map-chart" :style="dark?{background:'transparent'}:{}"><div v-if="error" class="map-loading">{{error}}</div></div></template>
 
 <style scoped>
 .supplier-map-chart {

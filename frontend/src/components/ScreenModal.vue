@@ -1,0 +1,7 @@
+<script setup>
+import {ref,onMounted,onBeforeUnmount} from 'vue';
+const props=defineProps({title:String});const emit=defineEmits(['close']);const dialog=ref(null);let previous,overflow;
+const key=e=>{if(e.key==='Escape')emit('close');if(e.key==='Tab'){const nodes=[...dialog.value.querySelectorAll('button,input,select,textarea,a[href],[tabindex="0"]')].filter(x=>!x.disabled&&x.getClientRects().length);const first=nodes[0],last=nodes.at(-1);if(!nodes.length){e.preventDefault();return;}if(e.shiftKey&&(document.activeElement===first||document.activeElement===dialog.value)){e.preventDefault();last.focus();}else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===dialog.value)){e.preventDefault();first.focus();}}};
+onMounted(()=>{previous=document.activeElement;overflow=document.body.style.overflow;document.body.style.overflow='hidden';dialog.value.focus();window.addEventListener('keydown',key);});onBeforeUnmount(()=>{document.body.style.overflow=overflow;window.removeEventListener('keydown',key);previous?.focus();});
+</script>
+<template><Teleport to="body"><div class="screen-overlay" @click.self="emit('close')"><section ref="dialog" class="screen-dialog" role="dialog" aria-modal="true" :aria-label="props.title" tabindex="-1"><header><h2>{{title}}</h2><button @click="emit('close')" aria-label="关闭详情">关闭 ×</button></header><div class="screen-dialog-content"><slot/></div></section></div></Teleport></template>

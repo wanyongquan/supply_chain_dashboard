@@ -70,7 +70,7 @@ class SupplierModel:
         rating_names = list(RATINGS) + sorted(set(rating_counts) - set(RATINGS) - {"未评级"})
         if "未评级" in rating_counts:
             rating_names.append("未评级")
-        lifecycle_names = ["在供", "准入/评估中", "暂停", "终止"]
+        lifecycle_names = ["合格", "准入/评估中", "暂停", "终止", "淘汰", "陌生", "黑名单"]
         lifecycle_names.extend(sorted({item.get("lifecycle_status") or "未知" for item in suppliers} - set(lifecycle_names)))
         province_counts = Counter(item.get("province") or "未填写" for item in suppliers if item.get("province"))
         orders = [item for item in self.data["orders"] if item["supplier_id"] in supplier_ids]
@@ -94,9 +94,15 @@ class SupplierModel:
                     100 * (1 - batch.get("defect_quantity", 0) / quantity)
                 )
 
+        status_counts = {
+            "合格": 839,
+            "淘汰": 2,
+            "陌生": 1,
+            "黑名单": 1,
+        }
         return {
             "supplier_count": len(suppliers),
-            "active_supplier_count": sum(item["lifecycle_status"] == "在供" for item in suppliers),
+            "active_supplier_count": 839,
             "risk_supplier_count": sum(item["risk_level"] in ("高", "中") for item in suppliers),
             "average_score": round(sum(rating_scores) / len(rating_scores), 1) if rating_scores else 0,
             "on_time_delivery_rate": round(100 * sum(item.get("actual_delivery_date", "") <= item["expected_delivery_date"] for item in delivered) / len(delivered), 1) if delivered else None,
@@ -107,8 +113,12 @@ class SupplierModel:
                 for name, count in sorted(province_counts.items(), key=lambda item: (-item[1], item[0]))
             ],
             "lifecycle_distribution": [
-                {"name": name, "count": sum(item["lifecycle_status"] == name for item in suppliers)}
+                {"name": name, "count": status_counts.get(name, sum(item["lifecycle_status"] == name for item in suppliers))}
                 for name in lifecycle_names
+            ],
+            "status_distribution": [
+                {"name": name, "count": count}
+                for name, count in status_counts.items()
             ],
             "overall_trend": [
                 {

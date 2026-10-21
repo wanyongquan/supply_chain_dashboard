@@ -1,0 +1,89 @@
+{
+  "is_mock": true,
+  "items": [
+    {
+      "tracking_id": "NP-001",
+      "material_id": "G270074000000",
+      "project_node_time": "2026-10-28",
+      "arrival_quantity": 0,
+      "required_quantity": 120
+    },
+    {
+      "tracking_id": "NP-002",
+      "material_id": "5408100710100",
+      "project_node_time": "2026-10-24",
+      "arrival_quantity": 48,
+      "required_quantity": 80
+    },
+    {
+      "tracking_id": "NP-003",
+      "material_id": "5408100720100",
+      "project_node_time": "2026-10-30",
+      "arrival_quantity": 60,
+      "required_quantity": 60
+    },
+    {
+      "tracking_id": "NP-004",
+      "material_id": "5410540700200",
+      "project_node_time": "2026-10-18",
+      "arrival_quantity": 0,
+      "required_quantity": 40
+    },
+    {
+      "tracking_id": "NP-005",
+      "material_id": "6408460700100",
+      "project_node_time": "2026-11-06",
+      "arrival_quantity": 25,
+      "required_quantity": 100
+    },
+    {
+      "tracking_id": "NP-006",
+      "material_id": "G000000011028",
+      "project_node_time": "2026-10-26",
+      "arrival_quantity": 120,
+      "required_quantity": 160
+    },
+    {
+      "tracking_id": "NP-007",
+      "material_id": "G000000023016",
+      "project_node_time": "2026-11-03",
+      "arrival_quantity": 0,
+      "required_quantity": 80
+    },
+    {
+      "tracking_id": "NP-008",
+      "material_id": "G000000031802",
+      "project_node_time": "2026-10-29",
+      "arrival_quantity": 30,
+      "required_quantity": 30
+    },
+    {
+      "tracking_id": "NP-009",
+      "material_id": "G270073000000",
+      "project_node_time": "2026-11-12",
+      "arrival_quantity": 0,
+      "required_quantity": 100
+    },
+    {
+      "tracking_id": "NP-010",
+      "material_id": "G270074000001",
+      "project_node_time": "2026-11-15",
+      "arrival_quantity": 45,
+      "required_quantity": 90
+    },
+    {
+      "tracking_id": "NP-011",
+      "material_id": "5410540700200",
+      "project_node_time": "2026-11-18",
+      "arrival_quantity": 10,
+      "required_quantity": 50
+    },
+    {
+      "tracking_id": "NP-012",
+      "material_id": "6408460700100",
+      "project_node_time": "2026-11-21",
+      "arrival_quantity": 0,
+      "required_quantity": 60
+    }
+  ]
+}

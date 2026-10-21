@@ -1,0 +1,11 @@
+{
+  "is_mock": true,
+  "total": 863,
+  "items": [
+    { "name": "A", "value": 116 },
+    { "name": "B", "value": 324 },
+    { "name": "C", "value": 238 },
+    { "name": "D", "value": 81 },
+    { "name": "未评级", "value": 104 }
+  ]
+}

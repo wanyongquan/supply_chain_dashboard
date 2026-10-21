@@ -1,0 +1,11 @@
+{
+  "is_mock": true,
+  "note": "仅用于真实来料检验记录不足连续月份时补齐趋势展示；真实月份优先。",
+  "items": [
+    { "month": "2026-04", "passRate": 97.8 },
+    { "month": "2026-05", "passRate": 98.1 },
+    { "month": "2026-06", "passRate": 97.6 },
+    { "month": "2026-07", "passRate": 98.4 },
+    { "month": "2026-08", "passRate": 98.2 }
+  ]
+}

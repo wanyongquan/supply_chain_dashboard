@@ -1,6 +1,7 @@
 <script setup>
 import {computed} from 'vue';
 import {useDashboard} from '../composables/useDashboard';
+import {supplierStatusLabel} from '../utils/supplierStatus';
 
 const {
   D,
@@ -39,7 +40,7 @@ function applyFilters(){
     </div>
     <select v-model="statusFilter" aria-label="按供应商状态筛选">
       <option value="全部">全部状态</option>
-      <option v-for="status in statuses" :key="status" :value="status">{{status}}</option>
+      <option v-for="status in statuses" :key="status" :value="status">{{supplierStatusLabel(status)}}</option>
     </select>
     <select v-model="ratingFilter" aria-label="按供应商等级筛选">
       <option value="全部">全部等级</option>

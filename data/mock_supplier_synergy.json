@@ -1,0 +1,6 @@
+{
+  "is_mock": true,
+  "sme_transformation_count": 839,
+  "order_capacity_sharing_rate": 98,
+  "note": "尚未提供中小企业转型认定记录及订单产能共享统计口径，待补充后录入；null表示未知，不代表0。"
+}

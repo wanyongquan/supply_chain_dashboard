@@ -4,9 +4,10 @@ import {useDashboard} from '../composables/useDashboard';
 import PriceHistoryChart from '../components/PriceHistoryChart.vue';
 
 const {D,priceTab,selectedPriceSummary,selectedPriceComparison,selectedCostFactors,selectedMaterial}=useDashboard();
-const materialCode=ref('G000000011028');
-const startDate=ref('2026-07-01');
-const endDate=ref('2026-09-30');
+const props=defineProps({initialMaterial:String,initialStart:String,initialEnd:String});
+const materialCode=ref(props.initialMaterial||'G000000011028');
+const startDate=ref(props.initialStart??'2026-07-01');
+const endDate=ref(props.initialEnd??'2026-09-30');
 const appliedFilters=ref({materialCode:materialCode.value,startDate:startDate.value,endDate:endDate.value});
 const materialOptions=computed(()=>[...new Set((D.value.purchaseHistory||[]).map(item=>item.material_id))]);
 const historyRows=computed(()=>{
@@ -27,7 +28,6 @@ const historyTableRows=computed(()=>historyRows.value.map(item=>[
 </script>
 <template>
   <section class="page-stack">
-    <Tabs :items="['物料历史价格']" v-model="priceTab"/>
     <template v-if="priceTab===0">
       <form class="price-history-filter" @submit.prevent="applyHistoryFilters">
         <label>物料编码

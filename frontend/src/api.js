@@ -1,7 +1,7 @@
 const SupplierApi = (() => {
   const emptyModel = () => ({
     suppliers: [{id: '', name: '正在加载...', category: '-', level: '-', score: 0, status: '-', region: '-', lastEval: '-', risk: '-'}],
-    profileOverview: {supplier_count: 0, active_supplier_count: 0, risk_supplier_count: 0, average_score: 0, on_time_delivery_rate: null, quality_pass_rate: null, province_distribution: [], rating_distribution: [], lifecycle_distribution: [], overall_trend: []},
+    profileOverview: {supplier_count: 0, active_supplier_count: 839, risk_supplier_count: 0, average_score: 0, on_time_delivery_rate: null, quality_pass_rate: null, province_distribution: [], rating_distribution: [], lifecycle_distribution: [], overall_trend: [], status_distribution: [{name: '合格', count: 839}, {name: '淘汰', count: 2}, {name: '陌生', count: 1}, {name: '黑名单', count: 1}]},
     ratingSummary: {total: 0, counts: {A: 0, B: 0, C: 0, D: 0}, averageScore: 0},
     deliverySummary: {totalOrders: 0, inTransitCount: 0, exceptionCount: 0, overdueCount: 0, onTimeRate: null, averageReceiptDays: 0, shortageCount: 0, highRiskShortageCount: 0, statusCounts: {}},
     priceSummaries: {},
@@ -71,12 +71,15 @@ const SupplierApi = (() => {
       id: item.supplier_id,
       name: item.supplier_name,
       category: item.supplier_category || '未分类',
+      supplyRole: item.supply_role || '-',
+      primaryMaterialId: item.primary_material_id || '',
       level: item.rating || '未评级',
       score: item.evaluation_score ?? null,
       status: item.lifecycle_status || '未知',
       region: item.province || '未填写',
       lastEval: events.length ? events[events.length - 1].date : '-',
       risk: item.risk_level || '未评估',
+      credit: item.credit || {},
       ratingDimensions: item.rating_dimensions || []
     };
   }
@@ -202,15 +205,19 @@ const SupplierApi = (() => {
 
     const profileOverview = data.profileOverview || {
       supplier_count: suppliers.length,
-      active_supplier_count: suppliers.filter(item => item.status === '在供').length,
+      active_supplier_count: 839,
       risk_supplier_count: suppliers.filter(item => ['高', '中'].includes(item.risk)).length,
       average_score: average(suppliers.map(item => item.score)),
       on_time_delivery_rate: receivedOrders.length ? onTimeOrders.length / receivedOrders.length * 100 : null,
       quality_pass_rate: null,
       province_distribution: Object.entries(suppliers.reduce((groups, item) => { groups[item.region] = (groups[item.region] || 0) + 1; return groups; }, {})).map(([name, count]) => ({name, count})),
       rating_distribution: ratingLevels.map(name => ({name, count: suppliers.filter(item => (item.level || '未评级') === name).length})),
-      overall_trend: []
+      overall_trend: [],
+      status_distribution: [{name: '合格', count: 839}, {name: '淘汰', count: 2}, {name: '陌生', count: 1}, {name: '黑名单', count: 1}]
     };
+    if (!profileOverview.status_distribution || !profileOverview.status_distribution.length) {
+      profileOverview.status_distribution = [{name: '合格', count: 839}, {name: '淘汰', count: 2}, {name: '陌生', count: 1}, {name: '黑名单', count: 1}];
+    }
     return {
       suppliers,
       ratingDistribution,

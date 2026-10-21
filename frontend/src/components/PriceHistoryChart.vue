@@ -4,7 +4,7 @@ import * as echarts from 'echarts';
 
 const props=defineProps({records:{type:Array,default:()=>[]}});
 const chartElement=ref(null);
-let chart;
+let chart,observer;
 const colors=['#39c6c8','#f0ad4e','#7dbb79','#e47b66','#729be8'];
 
 const render=()=>{
@@ -38,11 +38,11 @@ const render=()=>{
 onMounted(()=>{
   chart=echarts.init(chartElement.value);
   render();
-  window.addEventListener('resize',render);
+  observer=new ResizeObserver(()=>chart?.resize());observer.observe(chartElement.value);
 });
 watch(()=>props.records,render,{deep:true});
 onBeforeUnmount(()=>{
-  window.removeEventListener('resize',render);
+  observer?.disconnect();
   chart?.dispose();
 });
 </script>

@@ -1,0 +1,101 @@
+{
+  "is_mock": true,
+  "total": 863,
+  "items": [
+    {
+      "classify_no": "GYS001",
+      "classify_name": "性能件类供应商",
+      "count": 73
+    },
+    {
+      "classify_no": "GYS002",
+      "classify_name": "电器件类供应商",
+      "count": 78
+    },
+    {
+      "classify_no": "GYS003",
+      "classify_name": "铸件类供应商",
+      "count": 40
+    },
+    {
+      "classify_no": "GYS004",
+      "classify_name": "冲压焊接件类供应商",
+      "count": 38
+    },
+    {
+      "classify_no": "GYS005",
+      "classify_name": "橡塑类供应商",
+      "count": 9
+    },
+    {
+      "classify_no": "GYS006",
+      "classify_name": "垫片类供应商",
+      "count": 56
+    },
+    {
+      "classify_no": "GYS007",
+      "classify_name": "包材类供应商",
+      "count": 47
+    },
+    {
+      "classify_no": "GYS008",
+      "classify_name": "标准件类供应商",
+      "count": 44
+    },
+    {
+      "classify_no": "GYS020",
+      "classify_name": "原辅材料供应商",
+      "count": 22
+    },
+    {
+      "classify_no": "GYS021",
+      "classify_name": "设备备件供应商",
+      "count": 66
+    },
+    {
+      "classify_no": "GYS022",
+      "classify_name": "劳保类供应商",
+      "count": 29
+    },
+    {
+      "classify_no": "GYS023",
+      "classify_name": "五金电器类供应商",
+      "count": 28
+    },
+    {
+      "classify_no": "GYS024",
+      "classify_name": "工具、刀刃具、量检具类供应商",
+      "count": 32
+    },
+    {
+      "classify_no": "GYS025",
+      "classify_name": "水暖器材",
+      "count": 60
+    },
+    {
+      "classify_no": "GYS026",
+      "classify_name": "化工类",
+      "count": 14
+    },
+    {
+      "classify_no": "GYS027",
+      "classify_name": "燃材类",
+      "count": 58
+    },
+    {
+      "classify_no": "GYS028",
+      "classify_name": "办公用品类供应商",
+      "count": 50
+    },
+    {
+      "classify_no": "GYS009",
+      "classify_name": "滤清器类供应商",
+      "count": 69
+    },
+    {
+      "classify_no": "GYS010",
+      "classify_name": "燃油系统类供应商",
+      "count": 50
+    }
+  ]
+}

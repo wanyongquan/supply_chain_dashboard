@@ -1,9 +1,11 @@
 import {createRouter,createWebHashHistory} from 'vue-router';
 export default createRouter({history:createWebHashHistory(),routes:[
-{path:'/',redirect:'/profile/overview'},
-{path:'/profile/supplier/:supplierId',component:()=>import('../views/SupplierDetailLayout.vue'),children:[{path:'',redirect:to=>`/profile/supplier/${encodeURIComponent(to.params.supplierId)}/basic`},{path:'basic',component:()=>import('../views/profile/basic.vue'),meta:{module:'profile',sub:'basic'}},{path:'capacity',component:()=>import('../views/profile/capacity.vue'),meta:{module:'profile',sub:'capacity'}},{path:'delivery',component:()=>import('../views/profile/delivery.vue'),meta:{module:'profile',sub:'delivery'}},{path:'credit',component:()=>import('../views/profile/credit.vue'),meta:{module:'profile',sub:'credit'}},{path:'quality',component:()=>import('../views/profile/quality.vue'),meta:{module:'profile',sub:'quality'}}]},
-{path:'/profile',component:()=>import('../views/SupplierLayout.vue'),redirect:'/profile/overview',children:[{path:'overview',component:()=>import('../views/profile/overview.vue'),meta:{module:'profile',sub:'overview'}},{path:'basic',component:()=>import('../views/profile/basic.vue'),meta:{module:'profile',sub:'basic'}},{path:'capacity',component:()=>import('../views/profile/capacity.vue'),meta:{module:'profile',sub:'capacity'}},{path:'delivery',component:()=>import('../views/profile/delivery.vue'),meta:{module:'profile',sub:'delivery'}},{path:'credit',component:()=>import('../views/profile/credit.vue'),meta:{module:'profile',sub:'credit'}},{path:'quality',component:()=>import('../views/profile/quality.vue'),meta:{module:'profile',sub:'quality'}}]},
-{path:'/delivery',component:()=>import('../views/DeliveryLayout.vue'),redirect:'/delivery/flow',children:[{path:'overview',redirect:'/delivery/flow'},{path:'flow',component:()=>import('../views/delivery/flow.vue'),meta:{module:'delivery',sub:'flow'}},{path:'exceptions',redirect:'/delivery/flow'},{path:'fulfillment',component:()=>import('../views/delivery/fulfillment.vue'),meta:{module:'delivery',sub:'fulfillment'}},{path:'shortage',component:()=>import('../views/delivery/shortage.vue'),meta:{module:'delivery',sub:'shortage'}},{path:'ratio',component:()=>import('../views/delivery/ratio.vue'),meta:{module:'delivery',sub:'ratio'}}]},
-{path:'/rating',component:()=>import('../views/RatingView.vue'),meta:{module:'rating'}},
-{path:'/price',component:()=>import('../views/PriceView.vue'),meta:{module:'price'}},
-{path:'/:pathMatch(.*)*',redirect:'/profile/overview'}]});
+  {path:'/',redirect:'/profile'},
+  {path:'/profile',component:()=>import('../views/UnifiedScreen.vue'),meta:{module:'profile'}},
+  {path:'/delivery',component:()=>import('../views/UnifiedScreen.vue'),meta:{module:'delivery'}},
+  {path:'/profile/:pathMatch(.*)*',redirect:'/profile'},
+  {path:'/delivery/:pathMatch(.*)*',redirect:'/delivery'},
+  {path:'/rating',redirect:'/profile'},
+  {path:'/price',redirect:'/delivery'},
+  {path:'/:pathMatch(.*)*',redirect:'/profile'}
+]});

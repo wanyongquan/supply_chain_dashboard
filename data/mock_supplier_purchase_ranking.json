@@ -1,0 +1,11 @@
+{
+  "is_mock": true,
+  "note": "根据供应商主数据生成的采购金额演示排名，不代表真实采购流水。",
+  "items": [
+    { "supplier_id": "S003", "supplier_name": "东辰组件", "amount": 1286500 },
+    { "supplier_id": "S002", "supplier_name": "天圆精密", "amount": 1128400 },
+    { "supplier_id": "S001", "supplier_name": "华原滤清器", "amount": 936800 },
+    { "supplier_id": "S004", "supplier_name": "远航铸造", "amount": 785600 },
+    { "supplier_id": "218502", "supplier_name": "亚新科凸轮轴（仪征）有限公司", "amount": 642300 }
+  ]
+}

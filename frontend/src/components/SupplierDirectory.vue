@@ -2,6 +2,7 @@
 import {computed,ref,watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {useDashboard} from '../composables/useDashboard';
+import {supplierStatusLabel} from '../utils/supplierStatus';
 
 const router=useRouter();
 const {
@@ -65,7 +66,7 @@ function viewSupplier(item){
             <td>{{item.id}}</td>
             <td>{{item.category||'—'}}</td>
             <td>{{item.level?`${item.level}级`:'未评级'}}</td>
-            <td>{{item.status||'—'}}</td>
+            <td>{{item.status?supplierStatusLabel(item.status):'—'}}</td>
             <td>{{item.region||'—'}}</td>
             <td>
               <button class="supplier-directory-view" type="button" @click="viewSupplier(item)">
